@@ -1,0 +1,245 @@
+# Regional calibration for outbound email.
+#
+# Two kinds of content here:
+#   · `notes` / `avoid` — business-communication convention. Judgement calls.
+#     Edit them freely as your team learns what actually gets replies.
+#   · `compliance` — the statutory position on unsolicited commercial email in
+#     that market, as at the time of writing. It drives hard checks in the
+#     deterministic gate (postal address, opt-out line).
+#
+# The compliance notes are configuration, not legal advice. Cold B2B email is
+# permitted in some of these markets and restricted in others, and the rules
+# change. Have your counsel review this file before you run a campaign into a
+# market you have not sold into before. Germany in particular is stricter than
+# most people assume.
+
+locales:
+  - code: DEFAULT
+    label: International (default)
+    formality: medium
+    directness: medium
+    greeting: "Hi {firstName},"
+    signOff: "Best regards,"
+    subjectMaxChars: 60
+    bodyMaxWords: 160
+    notes:
+      - Lead with a specific, verifiable observation about their business.
+      - State the reason for writing in the first two sentences.
+      - One ask, easy to say yes or no to.
+    avoid:
+      - Assumed familiarity with someone you have never met
+      - Artificial urgency or deadlines you invented
+    compliance:
+      - Identify the sender and the sending organisation clearly
+      - Provide a working opt-out
+
+  - code: US
+    label: United States
+    formality: low
+    directness: high
+    greeting: "Hi {firstName},"
+    signOff: "Best,"
+    subjectMaxChars: 50
+    bodyMaxWords: 130
+    notes:
+      - Short is respected. Under 130 words reads as considerate, not curt.
+      - Open with the point. Context after, not before.
+      - Quantified outcomes carry more weight than described capability.
+      - A calendar link is normal and welcome.
+    avoid:
+      - Long preamble before the reason for writing
+      - Excessive formality, which reads as distance rather than respect
+    compliance:
+      - "CAN-SPAM: a valid physical postal address is required in commercial email"
+      - "CAN-SPAM: a clear opt-out mechanism, honoured within 10 business days"
+      - "CAN-SPAM: subject line must not misrepresent the content"
+
+  - code: GB
+    label: United Kingdom
+    formality: medium
+    directness: medium
+    greeting: "Hi {firstName},"
+    signOff: "Best regards,"
+    subjectMaxChars: 55
+    bodyMaxWords: 140
+    notes:
+      - Understate rather than overstate. A claim pitched slightly low reads as credible.
+      - Hedged phrasing ("this may not be relevant, but") lowers the cost of replying.
+      - Superlatives invite scepticism.
+    avoid:
+      - Hard-sell framing
+      - American-style enthusiasm
+    compliance:
+      - "PECR: marketing email to corporate subscribers (limited companies, LLPs, public bodies) is permitted without prior consent"
+      - "PECR: sole traders and most partnerships are treated as individuals and require consent"
+      - "PECR/UK GDPR: identify the sender and provide an opt-out in every message"
+
+  - code: DE
+    label: Germany
+    formality: high
+    directness: high
+    greeting: "Sehr geehrte/r {fullName},"
+    signOff: "Mit freundlichen Grüßen"
+    subjectMaxChars: 60
+    bodyMaxWords: 150
+    notes:
+      - Use the formal address and the full name with title until invited otherwise.
+      - Precision is the currency. Specifications, methodology and references beat narrative.
+      - Say plainly what you do and what it costs to find out more.
+      - Data residency and GDPR posture are near the top of a technical buyer's list.
+    avoid:
+      - First names before the relationship warrants it
+      - Vague claims without a method behind them
+      - Humour or informality in a first message
+    compliance:
+      - "UWG §7: unsolicited commercial email generally requires prior express consent, including B2B — cold email carries real legal risk in Germany"
+      - "Impressum/sender identification obligations apply"
+      - "GDPR: identify the controller and provide an opt-out"
+
+  - code: FR
+    label: France
+    formality: high
+    directness: medium
+    greeting: "Bonjour {fullName},"
+    signOff: "Cordialement,"
+    subjectMaxChars: 60
+    bodyMaxWords: 150
+    notes:
+      - Courtesy formulae are expected; their absence reads as rude, not efficient.
+      - Establish who you are before what you want.
+      - Writing in French materially improves reply rates, even at a large firm.
+    avoid:
+      - Opening with the ask
+      - Direct translation of American sales copy
+    compliance:
+      - "GDPR/ePrivacy: B2B email to a professional address is permitted where the message relates to the recipient's professional role, with an opt-out"
+      - "CNIL guidance: inform the recipient at collection and provide an opt-out in every message"
+
+  - code: NL
+    label: Netherlands
+    formality: medium
+    directness: high
+    greeting: "Hi {firstName},"
+    signOff: "Met vriendelijke groet,"
+    subjectMaxChars: 55
+    bodyMaxWords: 130
+    notes:
+      - Directness is a courtesy here. Say the thing.
+      - Price and scope questions early are normal, not aggressive.
+    avoid:
+      - Padding and hedging
+      - Status or hierarchy signalling
+    compliance:
+      - "Telecommunicatiewet: B2B email to addresses published for business contact is generally permitted, with an opt-out"
+      - "GDPR: identify the controller and provide an opt-out"
+
+  - code: IN
+    label: India
+    formality: medium
+    directness: medium
+    greeting: "Hi {firstName},"
+    signOff: "Best regards,"
+    subjectMaxChars: 60
+    bodyMaxWords: 150
+    notes:
+      - "Relationship and credibility markers matter: named clients, years in market, referrals."
+      - Be explicit about the next step; ambiguity stalls threads.
+      - English is standard for B2B; register sits slightly more formal than US.
+    avoid:
+      - Over-familiarity with senior people on first contact
+      - Assuming the first responder is the decision maker
+    compliance:
+      - "DPDP Act 2023: process personal data on a lawful basis and honour withdrawal requests"
+      - Provide a clear opt-out
+
+  - code: SG
+    label: Singapore
+    formality: medium
+    directness: medium
+    greeting: "Hi {firstName},"
+    signOff: "Best regards,"
+    subjectMaxChars: 55
+    bodyMaxWords: 130
+    notes:
+      - Concise and factual. Regional HQ decisions often involve a group function.
+      - Compliance posture and data residency come up early.
+    avoid:
+      - Assuming Singapore-only scope for a regional office
+    compliance:
+      - "Spam Control Act: unsolicited commercial email sent in bulk requires an unsubscribe facility and an <ADV> subject-line label"
+      - "PDPA: honour do-not-contact requests"
+
+  - code: AE
+    label: United Arab Emirates
+    formality: high
+    directness: medium
+    greeting: "Dear {fullName},"
+    signOff: "Kind regards,"
+    subjectMaxChars: 60
+    bodyMaxWords: 150
+    notes:
+      - Titles and formal address matter on first contact.
+      - Reputation markers — who else you work with in the region — carry weight.
+      - The working week is Monday to Friday; avoid Friday-afternoon sends.
+    avoid:
+      - First names before invitation
+      - Pressure tactics
+    compliance:
+      - "UAE PDPL: process on a lawful basis and honour objection requests"
+      - Provide a clear opt-out
+
+  - code: JP
+    label: Japan
+    formality: high
+    directness: low
+    greeting: "{fullName}様"
+    signOff: "何卒よろしくお願い申し上げます。"
+    subjectMaxChars: 45
+    bodyMaxWords: 170
+    notes:
+      - Open with a formal greeting and a self-introduction of the company before the individual.
+      - Build the case before the ask; arriving at the request too early reads as pushy.
+      - Written Japanese is close to expected for a first approach.
+      - Decisions are consensus-driven; the first reader is rarely the decider.
+    avoid:
+      - Direct comparison with a named competitor
+      - Assertive calls to action
+      - Informality of any kind
+    compliance:
+      - "Act on Regulation of Transmission of Specified Electronic Mail: opt-in required, with a narrow exception for business addresses published publicly"
+      - Sender name, address and opt-out must appear in the message
+
+  - code: AU
+    label: Australia
+    formality: low
+    directness: high
+    greeting: "Hi {firstName},"
+    signOff: "Cheers,"
+    subjectMaxChars: 50
+    bodyMaxWords: 130
+    notes:
+      - Plain speech, no posturing. Overclaiming is penalised hard.
+      - Short, specific, and easy to decline.
+    avoid:
+      - Corporate abstraction
+      - Superlatives
+    compliance:
+      - "Spam Act 2003: express or inferred consent required; a published business address for a relevant role can support inferred consent"
+      - "Spam Act 2003: accurate sender identification and a functional unsubscribe are mandatory"
+
+  - code: CA
+    label: Canada
+    formality: medium
+    directness: high
+    greeting: "Hi {firstName},"
+    signOff: "Best regards,"
+    subjectMaxChars: 50
+    bodyMaxWords: 130
+    notes:
+      - Similar register to the US, slightly less emphatic.
+      - Quebec recipients may expect French; check before sending.
+    avoid:
+      - Assuming US framing applies unchanged
+    compliance:
+      - "CASL: express or implied consent required before sending a commercial electronic message — one of the strictest regimes"
+      - "CASL: sender identification, mailing address and a working unsubscribe are mandatory"

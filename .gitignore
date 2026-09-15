@@ -1,0 +1,11 @@
+node_modules/
+dist/
+out/
+.env
+.env.local
+*.log
+
+# Google OAuth artifacts — never commit these
+.gmail-token.json
+credentials.json
+client_secret*.json

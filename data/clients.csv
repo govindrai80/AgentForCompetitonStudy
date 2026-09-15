@@ -1,0 +1,7 @@
+name,industry,country,region,services,nameable,since
+Meridian Retail Group,E-commerce,United Kingdom,Europe,platform-perf;data-platform,true,2024
+Lindqvist Betalningar AB,Fintech,Sweden,Europe,data-platform;platform-perf,false,2025
+Helix Diagnostics,Healthcare,United States,North America,reliability,false,2025
+Calder Freight,Logistics,Netherlands,Europe,platform-perf,true,2023
+Tamarind Learning,EdTech,India,Asia,data-platform,true,2022
+Overlook Analytics,B2B SaaS,United States,North America,platform-perf;reliability,false,2024

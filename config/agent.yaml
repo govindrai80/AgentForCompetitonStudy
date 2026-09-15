@@ -1,0 +1,43 @@
+# Runtime settings. Every value here has a working default in src/config.ts —
+# this file exists so you can change behaviour without touching code.
+
+model: claude-opus-5
+# low | medium | high | xhigh | max. Higher = more thorough research and a
+# sharper draft, at more tokens. "high" is the sweet spot for this workload.
+effort: high
+
+# Server-side refusal fallback: if a request is declined on policy grounds, the
+# API re-runs it on the fallback model inside the same call, so one awkward
+# prospect name doesn't kill a batch. Set enabled: false if your account or
+# gateway rejects the beta (the error message will tell you).
+refusalFallback:
+  enabled: true
+  model: claude-opus-4-8
+
+research:
+  maxSearches: 12
+  maxFetches: 8
+  # How many times to resume when the server-side tool loop hits its cap.
+  maxContinuations: 4
+  # Leave both empty for the open web. Set one or the other, never both.
+  allowedDomains: []
+  blockedDomains: []
+
+matching:
+  # How many case studies survive the deterministic prefilter and get read in
+  # full by the model. Raise it if your library is large and varied.
+  shortlistSize: 12
+  # How many may appear in the email. Two is usually one too many.
+  maxCited: 2
+
+output:
+  dir: out
+  # Exit non-zero when the verifier blocks a draft, so CI and batch runs notice.
+  failOnBlock: true
+
+paths:
+  companyProfile: config/company.yaml
+  locales: config/locales.yaml
+  industries: config/industries.yaml
+  caseStudies: data/case-studies
+  clients: data/clients.csv

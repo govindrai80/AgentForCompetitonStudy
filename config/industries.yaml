@@ -1,0 +1,112 @@
+# Register and vocabulary by buyer type. Matched loosely against the researched
+# industry, with `default` as the fallback. Add your own as you learn which
+# framings actually earn replies.
+
+industries:
+  - key: default
+    label: General B2B
+    notes:
+      - Lead with the problem in their language, not your capability in yours.
+      - One concrete proof point beats three general ones.
+    vocabulary: []
+    avoid:
+      - Unexplained internal jargon
+    specsThatMatter: []
+
+  - key: saas
+    label: B2B SaaS
+    notes:
+      - The reader is usually technical or technical-adjacent. Vagueness reads as ignorance.
+      - Name the specific failure mode, not the category. "p95 on the reporting endpoint" beats "performance issues".
+      - Say how you would measure the result before you say what the result would be.
+      - Respect that they have almost certainly tried the obvious fix already.
+    vocabulary:
+      - p95 / p99 latency
+      - error budget
+      - multi-tenancy
+      - time to first byte
+      - cost per tenant
+      - migration path
+    avoid:
+      - "digital transformation"
+      - "end-to-end solution"
+      - "unlock value"
+    specsThatMatter:
+      - engagement model
+      - typical duration
+      - deployment
+      - observability stack
+      - handover
+
+  - key: fintech
+    label: Fintech and financial services
+    notes:
+      - Compliance posture and audit evidence come before capability.
+      - Name the certifications and the residency options explicitly and early.
+      - Reversibility matters more than speed. Say how the work can be undone.
+    vocabulary:
+      - audit trail
+      - data residency
+      - reconciliation
+      - change control
+      - segregation of duties
+    avoid:
+      - "move fast"
+      - "disrupt"
+    specsThatMatter:
+      - compliance
+      - data residency
+      - handover
+      - engagement model
+
+  - key: health
+    label: Healthcare and life sciences
+    notes:
+      - Regulatory framing first. Clinical or patient impact second. Efficiency last.
+      - Procurement is slow and committee-driven; write for forwarding.
+    vocabulary:
+      - validated environment
+      - audit trail
+      - data residency
+      - interoperability
+    avoid:
+      - Casual tone
+      - Efficiency-only arguments
+    specsThatMatter:
+      - compliance
+      - data residency
+      - deployment
+
+  - key: ecommerce
+    label: E-commerce and marketplaces
+    notes:
+      - Peak-season risk is the strongest hook. Anchor to their calendar.
+      - Conversion and page-speed economics are well understood by this buyer.
+    vocabulary:
+      - peak traffic
+      - conversion rate
+      - checkout latency
+      - cart abandonment
+    avoid:
+      - Generic "scale" language with no event attached
+    specsThatMatter:
+      - typical duration
+      - engagement model
+      - deployment
+
+  - key: logistics
+    label: Logistics and supply chain
+    notes:
+      - Uptime and integration surface matter more than features.
+      - Legacy system constraints are a given, not an embarrassment — acknowledge them.
+    vocabulary:
+      - EDI
+      - track and trace
+      - exception handling
+      - cutover
+    avoid:
+      - Implying their existing systems are obsolete
+    specsThatMatter:
+      - deployment
+      - handover
+      - typical duration

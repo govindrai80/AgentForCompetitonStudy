@@ -1,0 +1,119 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# REPLACE EVERYTHING BELOW WITH YOUR OWN DETAILS.
+#
+# This is worked example content, not a description of any real company. The
+# agent treats this file as ground truth: whatever you write here is what it
+# will assert to prospects, so anything you cannot defend in a meeting should
+# not be in here.
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: Northwind Systems
+website: https://northwind.example
+oneLiner: We take B2B SaaS platforms that have outgrown their architecture and make them fast, observable and cheap to run.
+positioning: >-
+  Most scale-up engineering teams know exactly what is wrong with their platform
+  and have no capacity to fix it while shipping features. We embed a small senior
+  team for a fixed window, fix the specific thing that is hurting, and leave the
+  client's own engineers able to maintain it.
+foundedYear: 2017
+headquarters: Bengaluru, India
+teamSize: "45 engineers"
+
+sender:
+  name: Priya Raman
+  title: Principal, Platform Engineering
+  email: priya@northwind.example
+  phone: "+91 80 4718 2200"
+  calendarLink: https://cal.example/priya/15min
+  linkedin: https://linkedin.com/in/example
+
+# Required by CAN-SPAM for US recipients; the gate flags its absence.
+postalAddress: Northwind Systems, 14 Residency Road, Bengaluru 560025, India
+unsubscribeLine: Reply with "no thanks" and I will not contact you again.
+
+services:
+  - id: platform-perf
+    name: Platform Performance Engineering
+    description: Diagnose and remove the latency and throughput ceilings in an existing production system.
+    positioning: >-
+      A fixed-scope engagement that starts with measurement, not opinion. We
+      instrument first, find the actual bottleneck, and fix that — rather than
+      rewriting the part of the system that is easiest to rewrite.
+    idealFor:
+      - B2B SaaS past Series B with a monolith under strain
+      - Platforms with p95 latency complaints from enterprise customers
+      - Teams whose infrastructure bill is growing faster than revenue
+    specs:
+      engagement model: Embedded squad of 3–5 senior engineers
+      typical duration: 10–16 weeks
+      deployment: Client VPC, or our managed staging mirror
+      observability stack: OpenTelemetry, Prometheus, Grafana — no proprietary agents
+      handover: Runbooks, load-test harness, and two weeks of paired on-call
+      compliance: SOC 2 Type II, ISO 27001, GDPR DPA available
+      data residency: EU, US or India, client's choice
+    proofPoints:
+      - Every engagement ships behind the client's own CI, not ours
+      - We publish the measurement methodology before we quote a number
+    commercialNotes: Fixed fee per phase. Not time and materials.
+
+  - id: data-platform
+    name: Data Platform Modernisation
+    description: Move reporting and analytics off the transactional database without a big-bang migration.
+    positioning: >-
+      Incremental, reversible steps. Each phase ships to production and pays for
+      itself before the next one starts, so the work can stop at any point
+      without leaving the client half-migrated.
+    idealFor:
+      - Companies where analytics queries are degrading the production database
+      - Teams that have tried and abandoned a warehouse migration before
+      - Businesses with data-residency obligations across multiple markets
+    specs:
+      engagement model: Two engineers plus a fractional data architect
+      typical duration: 12–20 weeks
+      targets: Postgres, ClickHouse, BigQuery, Snowflake
+      ingestion: CDC via Debezium; no dual-write requirements
+      compliance: SOC 2 Type II, ISO 27001, GDPR DPA available
+      data residency: EU, US or India, client's choice
+    proofPoints:
+      - Each phase is independently revertible
+      - "No proprietary tooling: the client owns everything at handover"
+
+  - id: reliability
+    name: Reliability and On-Call Reset
+    description: Rebuild alerting, incident process and on-call rotation for a team drowning in pages.
+    positioning: >-
+      The goal is fewer pages, not better dashboards. We cut alert volume first,
+      then rebuild what is left around user-visible symptoms.
+    idealFor:
+      - Teams losing senior engineers to on-call burnout
+      - Companies signing enterprise SLAs for the first time
+    specs:
+      engagement model: One embedded SRE plus review cadence
+      typical duration: 8–12 weeks
+      SLO tooling: Client's existing stack; we do not sell a platform
+      compliance: SOC 2 Type II, ISO 27001
+    proofPoints:
+      - Alert volume reduction is measured against a pre-engagement baseline
+
+differentiators:
+  - Fixed scope and fixed fee — the commercial incentive is to finish, not to stay
+  - Measurement published before the engagement, so the result is checkable
+  - Client engineers pair with ours throughout; no knowledge leaves with us
+  - We turn down work we do not think we can move the needle on
+
+# Signals that mean we should not pitch at all. The selector checks these
+# against the research and reports any that fire.
+disqualifiers:
+  - Fewer than 15 engineers — there is no team to embed with
+  - Pre-product-market-fit; performance is not their problem yet
+  - Actively in an acquisition process — nothing gets signed
+  - Direct competitor of an existing client in the same market
+
+# Claims we may never make, for legal or contractual reasons. Enforced by both
+# the deterministic gate (substring) and the verifier (in substance).
+forbiddenClaims:
+  - guaranteed
+  - guarantee a
+  - we can promise
+  - industry-leading
+  - the only firm
