@@ -4,6 +4,12 @@ refusalFallback: { enabled: true, model: claude-opus-4-8 }
 research: { maxSearches: 12, maxFetches: 8, maxContinuations: 4 }
 matching: { shortlistSize: 12, maxCited: 2 }
 output: { dir: out, failOnBlock: true }
+defaultBrand: fixture
+brands:
+  fixture:
+    companyProfile: test/fixtures/config/company.yaml
+  sibling:
+    companyProfile: test/fixtures/config/sibling.yaml
 paths:
   companyProfile: test/fixtures/config/company.yaml
   locales: config/locales.yaml

@@ -1,0 +1,102 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# BRIKKIN — drafted from public sources, NOT VERIFIED BY YOU.
+#
+# brikkin.com sits behind bot verification and could not be read directly, so
+# this is assembled from Insomniacs' own blog coverage and search results. It is
+# the thinnest of the four profiles — treat every line as provisional.
+#
+# Sources: https://brikkin.com/ · https://brikkin.com/agent/about-us/
+#          https://insomniacs.in/blog/the-launch-room-how-brikkin-turns-real-estate-projects-into-stories/
+#          https://insomniacs.in/blog/brikkins-festive-playbook-for-real-estate-brands/
+# ─────────────────────────────────────────────────────────────────────────────
+brand: brikkin
+name: Brikkin
+group: Insomniacs
+website: https://brikkin.com
+oneLiner: >-
+  The real estate creator network — connecting developers with creators to
+  co-create content that generates demand rather than views.
+positioning: >-
+  Creator marketing in real estate usually produces reach and no attribution,
+  because the people booking the creators are not the people measuring the
+  funnel. Brikkin runs the creator network and the tracking as one thing, so a
+  reel is judged on enquiries and shortlisting rather than impressions.
+headquarters: Mumbai, India
+
+sender:
+  # TODO: confirm the sending mailbox and exact title for Brikkin outreach.
+  name: TODO
+  title: TODO
+  email: TODO@brikkin.com
+
+postalAddress: "TODO — Brikkin registered address"
+unsubscribeLine: Reply with "no thanks" and I will not write again.
+
+services:
+  - id: creator-network
+    name: Creator Network and BRIC
+    description: Matching developers with property and lifestyle creators, from hyper-local micro-creators to national names.
+    positioning: >-
+      The right creator for a project is usually local and small, not famous.
+      The network is built so a developer can reach either without running two
+      different processes.
+    idealFor:
+      - Developers targeting first-time buyers and younger cohorts
+      - Launches needing credibility in one specific micro-market
+      - Brands whose creator spend currently produces views and no enquiries
+    specs:
+      programme: BRIC — Brikkin Real Estate Influencer Club
+      creator range: Hyper-local micro-creators through to national names
+      attribution: "TODO — confirm how creator content is tracked through to enquiries"
+    proofPoints:
+      - "Network spans micro-creators to national names, per public coverage — unverified"
+
+  - id: launch-room
+    name: The Launch Room
+    description: A creative ecosystem for launching a real estate project — translating specifications into an interactive campaign and a launch workflow.
+    positioning: >-
+      A launch is a workflow, not a campaign. The Launch Room turns the project's
+      physical specification into something a buyer can explore, and wraps a
+      repeatable launch process around it.
+    idealFor:
+      - Developers with a launch calendar rather than a single launch
+      - Pre-launch windows where awareness and shortlisting need seeding before the formal open
+      - Projects whose product is hard to dramatise from a floor plan
+    specs:
+      scope: Pre-launch seeding, launch campaign, interactive project experience
+      window: Works hardest in the pre-launch period, before the formal open
+      compliance: RERA registration details carried in advertising; ASCI codes observed
+    proofPoints:
+      - "Positioned as a dedicated launch ecosystem rather than a campaign service"
+
+differentiators:
+  - A real estate creator network rather than a general influencer roster
+  - Creator work is wired to the funnel, so it reports enquiries rather than reach
+  - Pre-launch seeding as a distinct product, not an afterthought to the launch campaign
+  - Part of the Insomniacs group, so the media and CRM layers are already connected
+
+disqualifiers:
+  - Direct competitor of an existing client in the same micro-market, without written clearance from both
+  - Project has no RERA registration — we cannot advertise it
+  - Developer wanting a one-off creator post with no measurement
+  - "TODO: minimum campaign size below which this is not worth pursuing"
+
+forbiddenClaims:
+  - guaranteed returns
+  - assured returns
+  - guaranteed appreciation
+  - risk-free investment
+  - we guarantee
+  - guarantee a
+  - "no. 1"
+
+researchHints:
+  - The developer's own Instagram and YouTube — what creator work they already run, and whether it is converting
+  - Creators already posting about the developer's micro-market, paid or organic
+  - RERA portals for launch dates, which set the pre-launch window
+  - Trade press launch announcements — RealtyPlus, RealtyNXT, ET Realty
+  - Their hiring for brand, content or social roles, which usually precedes a launch push
+
+# TODO: brikkin.com sits behind bot verification, so no handles could be read
+# from the site and none surfaced in search. Fill these in.
+social: {}

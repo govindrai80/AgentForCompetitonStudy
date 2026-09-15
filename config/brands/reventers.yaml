@@ -1,0 +1,116 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# REVENTERS — drafted from reventers.com, NOT VERIFIED BY YOU.
+#
+# The named clients below are listed publicly on your own site. They are
+# recorded in data/clients.csv as nameable: false pending your confirmation,
+# because "logo on a website" and "cleared to cite in a cold email" are
+# different permissions. Flip them once you have checked.
+#
+# One public source describes Reventers as the real estate marketing unit of
+# Brikkin; reventers.com itself does not say so. Group structure is recorded
+# here as TODO rather than guessed.
+#
+# Sources: https://reventers.com/ · https://www.instagram.com/reventers_/
+# ─────────────────────────────────────────────────────────────────────────────
+brand: reventers
+name: Reventers
+group: Insomniacs
+website: https://reventers.com
+oneLiner: >-
+  Content and marketing for real estate brands — social strategy, video, PR
+  amplification and distribution, built to generate demand rather than reach.
+positioning: >-
+  "Built for Real Estate Brands That Are Done Playing Safe." Most real estate
+  content is produced to fill a calendar and judged on virality. We judge it on
+  whether it built trust or generated demand — if it did neither, it is not
+  finished.
+headquarters: "203, 2nd Floor, Akruti Star, MIDC Central Rd, Kondivita, Andheri East, Mumbai, India"
+
+sender:
+  # TODO: confirm the sending mailbox and exact title for Reventers outreach.
+  name: TODO
+  title: TODO
+  email: info@reventers.com
+  phone: "+91 88886 99986"
+
+postalAddress: "Reventers, 203, 2nd Floor, Akruti Star, MIDC Central Rd, Kondivita, Andheri East, Mumbai, India"
+unsubscribeLine: Reply with "no thanks" and I will not write again.
+
+services:
+  - id: content-strategy
+    name: Social and Content Strategy
+    description: Content strategy and production for real estate brands, built around demand rather than posting cadence.
+    positioning: >-
+      A content calendar is not a strategy. We start from what the brand needs
+      the market to believe, and work back to what to make.
+    idealFor:
+      - Developers whose social presence is active and not converting
+      - Brands entering a new micro-market where they have no recognition
+      - Mandate firms and channel partners building their own brand
+    specs:
+      engagement model: Retained
+      outputs: Social strategy, content production, distribution
+      measurement: Judged on trust and demand rather than virality
+    proofPoints:
+      - '"If it isn''t building trust or generating demand, it isn''t finished."'
+
+  - id: video-production
+    name: Video and Film
+    description: Video content for projects and developer brands, from launch films to ongoing social formats.
+    positioning: >-
+      Real estate video usually shows the product. The work that converts shows
+      the decision — why someone chose this place over the one down the road.
+    idealFor:
+      - Launches needing a campaign film
+      - Brands with product to show and no narrative around it
+    specs:
+      outputs: Launch films, social video formats
+      scope: "TODO — confirm in-house production capability versus partner network"
+
+  - id: pr-amplification
+    name: PR and Amplification
+    description: Earned coverage and paid amplification of it, so a story reaches beyond the publication that ran it.
+    positioning: >-
+      Coverage that nobody amplifies reaches the trade and stops. We treat a
+      placement as the start of the distribution, not the end.
+    idealFor:
+      - Developers with news and no distribution plan
+      - Brands whose trade coverage never reaches buyers
+    specs:
+      scope: PR placement plus paid amplification and distribution
+
+differentiators:
+  - Real estate only — "10 years in the real estate ecosystem", per the site
+  - Content judged on demand generated, not reach
+  - "Serves the wider ecosystem too: mandate firms, PropTech, architecture and channel partners, not only developers"
+  - Part of the Insomniacs group, so content connects to media and CRM
+
+disqualifiers:
+  - Direct competitor of an existing client in the same micro-market, without written clearance from both
+  - Project has no RERA registration — we cannot advertise it
+  - Brand wanting volume posting with no strategy behind it
+  - "TODO: minimum retainer below which this is not worth pursuing"
+
+forbiddenClaims:
+  - guaranteed returns
+  - assured returns
+  - guaranteed appreciation
+  - risk-free investment
+  - we guarantee
+  - guarantee a
+  - "no. 1"
+
+researchHints:
+  - The brand's own Instagram, YouTube and LinkedIn — posting cadence, engagement and whether anything is converting
+  - Trade press coverage they have earned, and whether it was amplified anywhere
+  - RERA portals for launch timing, which sets the content calendar
+  - Their hiring for brand, content, social or PR roles
+  - Architecture and design press, for the mandate firm and architecture segments
+
+# Public handles, read from reventers.com. The most complete of the four.
+social:
+  instagram: https://www.instagram.com/reventers_/
+  linkedin: https://www.linkedin.com/company/reventers
+  x: https://x.com/_Reventers
+  youtube: https://www.youtube.com/@Reventers_
+  facebook: https://www.facebook.com/Reventers-839365699737313

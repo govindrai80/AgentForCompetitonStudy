@@ -22,6 +22,10 @@ export interface CompetitorLeverage {
   usable: boolean;
   /** Exactly how to refer to them if usable. */
   referAs: string;
+  /** The brand in the group that holds this relationship. */
+  heldBy: string;
+  /** True when a sibling brand holds it, not the one sending this email. */
+  sibling: boolean;
   note: string;
 }
 
@@ -68,6 +72,8 @@ export function analyseCompetitors(corpus: Corpus, research: ProspectResearch): 
         origin: hit.origin,
         usable: hit.usable,
         referAs: hit.referAs,
+        heldBy: hit.heldBy,
+        sibling: hit.heldBy !== corpus.brand,
         note: hit.note,
       };
 
@@ -82,9 +88,11 @@ export function analyseCompetitors(corpus: Corpus, research: ProspectResearch): 
           competitor: competitor.name,
           ourClient: hit.clientName,
           severity: sellerMindsConflicts ? "major" : "minor",
-          reason: sellerMindsConflicts
-            ? `${hit.clientName} is already a client and is a direct competitor of the prospect. Your own disqualifiers flag this — confirm there is no exclusivity commitment before sending.`
-            : `${hit.clientName} is already a client and is a direct competitor of the prospect. Strong leverage, but confirm both sides are comfortable with it.`,
+          reason: hit.heldBy !== corpus.brand
+            ? `${hit.clientName} is a direct competitor of the prospect and is already a client of ${hit.heldBy}, a sibling brand. Check across the group before ${corpus.brand} approaches this prospect — the conflict is the group's, not just this brand's.`
+            : sellerMindsConflicts
+              ? `${hit.clientName} is already a client and is a direct competitor of the prospect. Your own disqualifiers flag this — confirm there is no exclusivity commitment before sending.`
+              : `${hit.clientName} is already a client and is a direct competitor of the prospect. Strong leverage, but confirm both sides are comfortable with it.`,
         });
       }
     }
@@ -99,6 +107,7 @@ interface Relationship {
   clientName: string;
   usable: boolean;
   referAs: string;
+  heldBy: string;
   note: string;
 }
 
@@ -108,6 +117,7 @@ interface Relationship {
  * the kind of thing a rep needs to know before they hit send.
  */
 function findRelationships(corpus: Corpus, competitorName: string): Relationship[] {
+  const groupBrand = corpus.brand;
   const found: Relationship[] = [];
   const claimed = new Set<string>();
 
@@ -115,7 +125,7 @@ function findRelationships(corpus: Corpus, competitorName: string): Relationship
     const match = matchCompany(competitorName, cs.client);
     if (!match) continue;
     claimed.add(normaliseKey(cs.client));
-    found.push(caseStudyRelationship(cs, match));
+    found.push(caseStudyRelationship(cs, match, groupBrand));
   }
 
   for (const client of corpus.clients) {
@@ -123,14 +133,30 @@ function findRelationships(corpus: Corpus, competitorName: string): Relationship
     if (claimed.has(normaliseKey(client.name))) continue;
     const match = matchCompany(competitorName, client.name);
     if (!match) continue;
-    found.push(clientRelationship(client, match));
+    found.push(clientRelationship(client, match, groupBrand));
   }
 
   return found;
 }
 
-function caseStudyRelationship(cs: CaseStudy, match: NameMatch): Relationship {
-  const base = { match, clientName: cs.client, origin: { kind: "case-study" as const, id: cs.id, client: cs.client } };
+function caseStudyRelationship(cs: CaseStudy, match: NameMatch, activeBrand: string): Relationship {
+  const heldBy = cs.brand ?? activeBrand;
+  const base = {
+    match,
+    clientName: cs.client,
+    heldBy,
+    origin: { kind: "case-study" as const, id: cs.id, client: cs.client },
+  };
+
+  // A sibling brand's client is real knowledge and not this brand's to claim.
+  if (heldBy !== activeBrand) {
+    return {
+      ...base,
+      usable: false,
+      referAs: "",
+      note: `${cs.client} is a client of ${heldBy}, a sibling brand — not of ${activeBrand}. Useful context; not this brand's proof to cite. Route the introduction through ${heldBy} if you want to use it.`,
+    };
+  }
 
   if (cs.confidentiality === "public") {
     return {
@@ -156,8 +182,22 @@ function caseStudyRelationship(cs: CaseStudy, match: NameMatch): Relationship {
   };
 }
 
-function clientRelationship(client: ClientRecord, match: NameMatch): Relationship {
-  const base = { match, clientName: client.name, origin: { kind: "client-list" as const, name: client.name } };
+function clientRelationship(client: ClientRecord, match: NameMatch, activeBrand: string): Relationship {
+  const heldBy = client.brand ?? activeBrand;
+  const base = {
+    match,
+    clientName: client.name,
+    heldBy,
+    origin: { kind: "client-list" as const, name: client.name },
+  };
+  if (heldBy !== activeBrand) {
+    return {
+      ...base,
+      usable: false,
+      referAs: "",
+      note: `${client.name} is a client of ${heldBy}, a sibling brand — not of ${activeBrand}. Useful context; not this brand's proof to cite.`,
+    };
+  }
   return client.nameable
     ? {
         ...base,

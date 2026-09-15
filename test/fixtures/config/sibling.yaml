@@ -1,0 +1,23 @@
+brand: sibling
+name: Sibling Content Co
+group: Fixture Group
+website: https://sibling.example
+oneLiner: Content for real estate brands.
+positioning: Judged on demand generated.
+sender:
+  name: Ravi Nair
+  title: Principal
+  email: ravi@sibling.example
+postalAddress: Sibling Content Co, 2 Test Road, Mumbai 400001, India
+unsubscribeLine: Reply "no thanks" and I will not write again.
+services:
+  - id: content
+    name: Content
+    description: Social and video content.
+    positioning: Built around demand.
+    idealFor: [developers]
+    specs:
+      engagement model: Retained
+differentiators: [real estate only]
+disqualifiers: [Direct competitor of an existing client, without written clearance]
+forbiddenClaims: [we guarantee]

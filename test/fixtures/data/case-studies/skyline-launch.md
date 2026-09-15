@@ -1,5 +1,6 @@
 ---
 id: skyline-launch
+brand: fixture
 client: Skyline Developers
 confidentiality: public
 industry: Real Estate

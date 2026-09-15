@@ -4,8 +4,8 @@ import type { ProspectResearch } from "../src/types.js";
 
 /** The suite runs against a fixture corpus, never the sales team's live data. */
 export const FIXTURE_CONFIG = "test/fixtures/config/agent.yaml";
-export const fixtureConfig = () => loadAgentConfig(FIXTURE_CONFIG);
-export const fixtureCorpus = () => loadCorpus(fixtureConfig());
+export const fixtureConfig = (brand?: string) => loadAgentConfig(FIXTURE_CONFIG, brand);
+export const fixtureCorpus = (brand?: string) => loadCorpus(fixtureConfig(brand));
 
 type Competitor = ProspectResearch["competitors"][number];
 

@@ -1,5 +1,6 @@
-name,industry,country,region,services,nameable,since
-Skyline Developers,Real Estate,India,India,performance;crm,true,2025
-Harbour Estates Pvt Ltd,Real Estate,India,India,crm,false,2025
-Beacon Realty,Real Estate,India,India,performance,true,2024
-Quiet Partner Homes,Real Estate,India,India,performance,false,2023
+name,brand,industry,country,region,services,nameable,since
+Skyline Developers,fixture,Real Estate,India,India,performance;crm,true,2025
+Harbour Estates Pvt Ltd,fixture,Real Estate,India,India,crm,false,2025
+Beacon Realty,fixture,Real Estate,India,India,performance,true,2024
+Quiet Partner Homes,fixture,Real Estate,India,India,performance,false,2023
+Tidewater Group,sibling,Real Estate,India,India,content,true,2024

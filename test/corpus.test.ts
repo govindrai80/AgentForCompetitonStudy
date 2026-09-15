@@ -32,11 +32,17 @@ describe("loadCorpus", () => {
     expect(corpus.caseStudies.map((c) => c.id)).not.toContain("_template");
   });
 
-  it("validates every service id referenced by a case study", () => {
+  it("validates the active brand's own case studies against its service list", () => {
     const ids = new Set(corpus.company.services.map((s) => s.id));
-    for (const cs of corpus.caseStudies) {
+    for (const cs of corpus.caseStudies.filter((c) => !c.brand || c.brand === corpus.brand)) {
       for (const used of cs.servicesUsed) expect(ids).toContain(used);
     }
+  });
+
+  it("still loads a sibling brand's engagements, whose service ids are not ours", () => {
+    const sibling = corpus.caseStudies.find((c) => c.brand === "sibling");
+    expect(sibling).toBeDefined();
+    expect(corpus.company.services.map((s) => s.id)).not.toContain(sibling!.servicesUsed[0]);
   });
 });
 

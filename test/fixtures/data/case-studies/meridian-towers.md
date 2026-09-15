@@ -1,5 +1,6 @@
 ---
 id: meridian-towers
+brand: fixture
 client: Meridian Towers
 confidentiality: internal_only
 industry: Real Estate

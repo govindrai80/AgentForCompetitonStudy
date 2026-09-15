@@ -18,6 +18,7 @@ export async function selectEvidence(
     research,
     cfg.matching.shortlistSize,
     competitorCaseStudyIds(competitorIntel),
+    corpus.brand,
   );
   if (shortlisted.length === 0) {
     throw new Error(

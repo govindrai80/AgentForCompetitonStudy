@@ -28,6 +28,8 @@ export function renderBrief(
   const md: string[] = [];
   md.push(`# Outreach brief — ${a.prospect}`);
   md.push("");
+  md.push(`**From:** ${company.name}${company.group && company.group !== company.name ? ` (${company.group} group)` : ""}`);
+  md.push("");
   md.push(`> ${verdictLine}.`);
   md.push(
     `> Research confidence: **${r.confidence}** · Gate: **${worstSeverity(a.gateFindings)}** · ` +
@@ -88,6 +90,11 @@ export function renderBrief(
     ci.leverage.forEach((l) =>
       md.push(`- **${l.referAs}** (${l.relationship} competitor) — ${l.note}`, `  - matched because ${l.match.reason}`),
     );
+  }
+  const siblings = [...ci.silent, ...ci.leverage].filter((l) => l.sibling);
+  if (siblings.length) {
+    md.push("", "### Held by a sibling brand — group conflict check");
+    siblings.forEach((l) => md.push(`- **${l.competitor}** — client of **${l.heldBy}**, not ${a.research.company.displayName ? company.name : company.name}. ${l.note}`));
   }
   if (ci.silent.length) {
     md.push("", "### Real, but not referenceable");

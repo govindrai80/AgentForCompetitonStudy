@@ -39,6 +39,25 @@ export const AgentConfigSchema = z.object({
       failOnBlock: z.boolean().default(true),
     })
     .prefault({}),
+  /** Brand used when --brand is not given. */
+  defaultBrand: z.string().default("insomniacs"),
+  /**
+   * Per-brand overrides of `paths`. A brand that omits a path inherits the
+   * default, so sibling brands can share a client list while keeping their own
+   * profile and case studies.
+   */
+  brands: z
+    .record(
+      z.string(),
+      z.object({
+        companyProfile: z.string().optional(),
+        locales: z.string().optional(),
+        industries: z.string().optional(),
+        caseStudies: z.string().optional(),
+        clients: z.string().optional(),
+      }),
+    )
+    .default({}),
   paths: z
     .object({
       companyProfile: z.string().default("config/company.yaml"),
@@ -51,11 +70,30 @@ export const AgentConfigSchema = z.object({
 });
 export type AgentConfig = z.infer<typeof AgentConfigSchema>;
 
-export function loadAgentConfig(file = "config/agent.yaml"): AgentConfig {
+export interface ResolvedConfig extends AgentConfig {
+  /** The brand this run speaks as. */
+  activeBrand: string;
+}
+
+export function loadAgentConfig(file = "config/agent.yaml", brand?: string): ResolvedConfig {
   const raw = fs.existsSync(file) ? YAML.parse(fs.readFileSync(file, "utf8")) ?? {} : {};
   const cfg = AgentConfigSchema.parse(raw);
+
+  const activeBrand = brand ?? cfg.defaultBrand;
+  const known = Object.keys(cfg.brands);
+  if (known.length && !cfg.brands[activeBrand]) {
+    throw new Error(
+      `Unknown brand "${activeBrand}". Configured brands: ${known.join(", ")}.`,
+    );
+  }
+
   const envModel = process.env.OUTREACH_MODEL?.trim();
-  return envModel ? { ...cfg, model: envModel } : cfg;
+  return {
+    ...cfg,
+    ...(envModel ? { model: envModel } : {}),
+    activeBrand,
+    paths: { ...cfg.paths, ...(cfg.brands[activeBrand] ?? {}) },
+  };
 }
 
 export function readYaml<S extends z.ZodType>(file: string, schema: S, what: string): z.infer<S> {

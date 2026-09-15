@@ -40,7 +40,11 @@ export const SenderSchema = z.object({
 });
 
 export const CompanyProfileSchema = z.object({
+  /** Stable key used by --brand and by the case-study `brand` field. */
+  brand: z.string(),
   name: z.string(),
+  /** The group this brand belongs to, where there is one. */
+  group: z.string().optional(),
   website: z.string(),
   oneLiner: z.string(),
   positioning: z.string(),
@@ -59,6 +63,12 @@ export const CompanyProfileSchema = z.object({
    * hard-coded assumption about what industry we sell into.
    */
   researchHints: z.array(z.string()).default([]),
+  /**
+   * The brand's own public handles. Reference material, not outbound copy —
+   * useful when a prospect asks who you are, and as the place this stays
+   * current rather than living in someone's head.
+   */
+  social: z.record(z.string(), z.string()).default({}),
   sender: SenderSchema,
   /** Postal address — required by CAN-SPAM for US recipients. */
   postalAddress: z.string().optional(),
@@ -92,6 +102,13 @@ export type Confidentiality = z.infer<typeof ConfidentialitySchema>;
 
 export const CaseStudySchema = z.object({
   id: z.string(),
+  /**
+   * Which brand ran this engagement. Omitted means any brand may cite it.
+   * A sibling brand's engagement stays visible to the competitor scan — group
+   * -wide client knowledge is the point of being a group — but never enters the
+   * shortlist for a brand that did not do the work.
+   */
+  brand: z.string().optional(),
   client: z.string(),
   confidentiality: ConfidentialitySchema,
   /** How to refer to the client when confidentiality is "anonymized". */
@@ -120,6 +137,8 @@ export type CaseStudy = z.infer<typeof CaseStudySchema>;
 
 export const ClientRecordSchema = z.object({
   name: z.string(),
+  /** Which brand in the group holds this relationship. */
+  brand: z.string().optional(),
   industry: z.string(),
   country: z.string(),
   region: z.string().optional(),

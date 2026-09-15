@@ -8,11 +8,41 @@ traced back to a source you can open.
 ```bash
 npm install
 cp .env.example .env          # add ANTHROPIC_API_KEY
-npm run outreach -- validate  # check your reference material loads
-npm run outreach -- research "Sobha Limited" --contact "..." --title "Head of Sales"
+npm run outreach -- brands    # which brands exist and how ready each is
+npm run outreach -- validate  # check every brand's reference material loads
+npm run outreach -- research "Sobha Limited" --brand reventers --title "Head of Sales"
 ```
 
-> **`config/company.yaml` was drafted from public sources and has not been verified by anyone at Insomniacs.** Every line in it is a claim the agent will make to prospects. Read it before the first real run; fields it could not establish are marked `TODO`.
+> **Every profile in `config/brands/` was drafted from public sources and has not been verified by anyone at Insomniacs.** Each line is a claim the agent will make to prospects. Read them before the first real run; `npm run outreach -- validate` lists every field still marked `TODO`.
+
+## Brands
+
+Insomniacs and its sub-verticals go to market differently — different products,
+different client lists, different registers — so each is its own profile rather
+than more services on one:
+
+| `--brand` | Brand | Sells |
+| --- | --- | --- |
+| `insomniacs` | Insomniacs | Full-service real estate marketing and the martech underneath |
+| `absolutecx` | AbsoluteCX | AI real estate CRM, pre-sales automation, CX through handover |
+| `brikkin` | Brikkin | Creator network (BRIC) and The Launch Room |
+| `reventers` | Reventers | Content, video, PR and amplification for real estate brands |
+
+Two rules make the group work as a group without letting brands borrow each
+other's credibility:
+
+- **The client list is group-wide.** Whichever brand is sending, the competitor
+  scan reads every relationship in `data/clients.csv`. A rival quietly being
+  AbsoluteCX's client is a conflict for the group, not just for AbsoluteCX —
+  and the caution says so.
+- **The pitch is not.** A case study tagged `brand: absolutecx` never enters
+  Reventers' shortlist or evidence pack, and naming a sibling's client in the
+  wrong brand's email is a hard block. Sibling relationships appear in the
+  brief under *held by a sibling brand*, with a note to route the introduction
+  through whoever owns it.
+
+Untagged case studies are citable by any brand. `outreach brands` shows how
+many own case studies, verified results and outstanding `TODO`s each has.
 
 Output lands in `out/<prospect>-<timestamp>/`:
 
@@ -112,10 +142,10 @@ an email.
 
 Three files, then you're running.
 
-**`config/company.yaml`** — who you are, what you sell, and the specifications a
-buyer will ask about. Drafted from your website and press coverage, with sources
-listed in the header and unknowns marked `TODO`. **Verify it.** Three fields do
-real work beyond description:
+**`config/brands/<brand>.yaml`** — who that brand is, what it sells, and the
+specifications a buyer will ask about. Drafted from each site and press coverage,
+with sources in the header and unknowns marked `TODO`. **Verify them.** Four
+fields do real work beyond description:
 
 - `disqualifiers` — signals that mean you should not pitch at all. The selector
   checks the research against these and reports any that fire.
@@ -123,9 +153,13 @@ real work beyond description:
   Enforced by substring in the gate and in substance by the auditor. The
   returns-related entries matter most: promising assured returns or appreciation
   on property is the fastest route to a regulatory problem in India.
-- `researchHints` — where a researcher should look for your kind of prospect.
-  These are injected into the analyst brief, so research goes to RERA portals,
-  absorption reports and trade press rather than generic company sources.
+- `researchHints` — where a researcher should look for that brand's kind of
+  prospect. Injected into the analyst brief, so research goes to RERA portals,
+  absorption reports and trade press rather than generic company sources. They
+  differ by brand: AbsoluteCX looks for CRM and pre-sales hiring, Brikkin looks
+  at creator activity and launch windows.
+- `social` — the brand's public handles. Reference material, so it stays
+  current somewhere other than in someone's head.
 
 **`data/case-studies/*.md`** — one markdown file per engagement. YAML frontmatter
 is the structured record; the prose below it is what the selector reads when
@@ -232,14 +266,15 @@ so — set `enabled: false`.
 ## Tests
 
 ```bash
-npm test        # 76 tests, no API key needed
+npm test        # 87 tests, no API key needed
 npm run typecheck
 ```
 
 The suite covers the parts where a bug is silent and expensive: the
 confidentiality gate, the unverified-number check, company-name matching, the
-competitor cross-reference and its cautions, the evidence pack, and a full
-pipeline run against a stubbed SDK client.
+competitor cross-reference and its cautions, brand isolation and group-wide
+competitor visibility, the evidence pack, and a full pipeline run against a
+stubbed SDK client.
 
 It runs against its own fixture corpus in `test/fixtures/`, not your live
 reference material — so editing `config/company.yaml` or adding a case study
@@ -256,9 +291,11 @@ strictly enforced in Germany, Canada and Japan. The `compliance` notes in
 checks, but they are configuration, not legal advice. Have counsel look at that
 file before you send into a market you haven't sold into before.
 
-**Verify the company profile before the first real send.** It was assembled
-from public sources by an agent that had never spoken to you. It is a starting
-point, not a record.
+**Verify the brand profiles before the first real send.** They were assembled
+from public sources by an agent that had never spoken to you. They are a
+starting point, not a record. `validate` lists what is still `TODO`; the most
+important gaps are the sender mailbox on each brand and the fact that no brand
+has a case study with verified results yet.
 
 **Read the brief, not just the email.** The draft is the easy part to evaluate
 and the wrong thing to evaluate. The claim ledger and the two audits are where

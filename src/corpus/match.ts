@@ -38,12 +38,17 @@ export function shortlist(
   limit: number,
   /** Case studies whose client is a confirmed competitor of the prospect. */
   competitorCaseStudyIds: ReadonlySet<string> = new Set(),
+  /** Only cite work this brand did. Undefined means no brand filtering. */
+  activeBrand?: string,
 ): ScoredCaseStudy[] {
   const thisYear = new Date().getUTCFullYear();
 
   const scored = caseStudies
     // Internal-only material never reaches a stage that can quote it.
     .filter((cs) => cs.confidentiality !== "internal_only")
+    // A sibling brand's engagement is group intelligence, not this brand's
+    // proof. It stays visible to the competitor scan and out of the pitch.
+    .filter((cs) => !activeBrand || !cs.brand || cs.brand === activeBrand)
     .map((cs) => {
       const reasons: string[] = [];
       let score = 0;

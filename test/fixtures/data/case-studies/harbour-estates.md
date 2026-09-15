@@ -1,5 +1,6 @@
 ---
 id: harbour-estates
+brand: fixture
 client: Harbour Estates Pvt Ltd
 confidentiality: anonymized
 anonymousLabel: a Pune developer with a mid-income portfolio

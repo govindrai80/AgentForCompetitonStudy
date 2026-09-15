@@ -15,10 +15,12 @@ import {
   type IndustryStyle,
   type LocaleProfile,
 } from "../types.js";
-import { formatZodError, readYaml, type AgentConfig } from "../config.js";
+import { formatZodError, readYaml, type AgentConfig, type ResolvedConfig } from "../config.js";
 import { log } from "../util/logger.js";
 
 export interface Corpus {
+  /** The brand this corpus speaks as. */
+  brand: string;
   company: CompanyProfile;
   caseStudies: CaseStudy[];
   clients: ClientRecord[];
@@ -26,8 +28,14 @@ export interface Corpus {
   industries: IndustryStyle[];
 }
 
-export function loadCorpus(cfg: AgentConfig): Corpus {
+export function loadCorpus(cfg: AgentConfig | ResolvedConfig): Corpus {
   const company = readYaml(cfg.paths.companyProfile, CompanyProfileSchema, "company profile");
+  const activeBrand = "activeBrand" in cfg ? cfg.activeBrand : company.brand;
+  if (company.brand !== activeBrand) {
+    throw new Error(
+      `Brand mismatch: --brand resolved to "${activeBrand}" but ${cfg.paths.companyProfile} declares brand "${company.brand}".`,
+    );
+  }
   const locales = readYaml(
     cfg.paths.locales,
     z.object({ locales: z.array(LocaleProfileSchema).min(1) }),
@@ -44,13 +52,13 @@ export function loadCorpus(cfg: AgentConfig): Corpus {
   const caseStudies = loadCaseStudies(cfg.paths.caseStudies);
   const clients = loadClients(cfg.paths.clients);
 
-  crossCheck(company, caseStudies);
+  crossCheck(company, caseStudies, activeBrand);
 
   log.debug(
-    `corpus: ${caseStudies.length} case studies, ${clients.length} clients, ` +
+    `corpus[${activeBrand}]: ${caseStudies.length} case studies, ${clients.length} clients, ` +
       `${company.services.length} services, ${locales.length} locales, ${industries.length} industry styles`,
   );
-  return { company, caseStudies, clients, locales, industries };
+  return { brand: activeBrand, company, caseStudies, clients, locales, industries };
 }
 
 /**
@@ -99,7 +107,13 @@ function loadClients(file: string): ClientRecord[] {
     log.debug(`no client list at ${file} — continuing without one`);
     return [];
   }
-  const rows = parseCsv(fs.readFileSync(file, "utf8"));
+  // Strip "#" comment lines so the file can document its own conventions.
+  const text = fs
+    .readFileSync(file, "utf8")
+    .split("\n")
+    .filter((line) => !line.trimStart().startsWith("#"))
+    .join("\n");
+  const rows = parseCsv(text);
   const header = rows.shift();
   if (!header) return [];
 
@@ -114,6 +128,7 @@ function loadClients(file: string): ClientRecord[] {
         record.services = record.services ? record.services.split(";").map((s) => s.trim()) : [];
       }
       record.nameable = String(record.nameable ?? "").toLowerCase() === "true";
+      if (!record.brand) delete record.brand;
       if (!record.region) delete record.region;
       if (!record.since) delete record.since;
 
@@ -159,11 +174,15 @@ export function parseCsv(text: string): string[][] {
 }
 
 /** Catch the wiring mistakes that would otherwise show up as a vague email. */
-function crossCheck(company: CompanyProfile, caseStudies: CaseStudy[]): void {
+function crossCheck(company: CompanyProfile, caseStudies: CaseStudy[], activeBrand: string): void {
   const serviceIds = new Set(company.services.map((s) => s.id));
   const problems: string[] = [];
 
   for (const cs of caseStudies) {
+    // Service ids are per brand, so only check the ones this brand owns. A
+    // sibling's engagement is still loaded — the competitor scan needs it — but
+    // its service ids belong to that sibling's profile, not this one.
+    if (cs.brand && cs.brand !== activeBrand) continue;
     for (const used of cs.servicesUsed) {
       if (!serviceIds.has(used)) {
         problems.push(`case study "${cs.id}" references unknown service id "${used}"`);

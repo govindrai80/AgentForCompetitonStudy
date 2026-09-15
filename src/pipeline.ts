@@ -51,8 +51,8 @@ export async function runPipeline(
   log.step(1, TOTAL_STEPS, "Loading reference material");
   const loaded = deps.corpus ?? loadCorpus(cfg);
   log.ok(
-    `${loaded.caseStudies.length} case studies · ${loaded.company.services.length} services · ` +
-      `${loaded.clients.length} past clients`,
+    `Sending as ${loaded.company.name} · ${loaded.caseStudies.filter((c) => !c.brand || c.brand === loaded.brand).length} own case studies · ` +
+      `${loaded.company.services.length} services · ${loaded.clients.length} group clients`,
   );
 
   const claude = new Claude(

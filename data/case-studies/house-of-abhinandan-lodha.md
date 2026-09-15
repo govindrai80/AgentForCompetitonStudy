@@ -9,6 +9,7 @@
 #
 # Source: https://insomniacs.in/case-studies/the-house-of-abhinandan-lodha/
 id: house-of-abhinandan-lodha
+brand: insomniacs
 client: The House of Abhinandan Lodha
 confidentiality: public
 industry: Real Estate

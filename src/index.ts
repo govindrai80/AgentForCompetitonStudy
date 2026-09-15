@@ -35,10 +35,11 @@ program
   .option("--gmail", "also create a Gmail draft (never sends)", false)
   .option("-o, --out <dir>", "output directory (default: from config)")
   .option("--config <file>", "agent config file", "config/agent.yaml")
+  .option("-b, --brand <key>", "which brand is sending (see `outreach brands`)")
   .option("-v, --verbose", "log intermediate detail", false)
   .action(async (company: string, o) => {
     setVerbose(o.verbose);
-    const cfg = loadAgentConfig(o.config);
+    const cfg = loadAgentConfig(o.config, o.brand);
     const outDir = o.out ?? cfg.output.dir;
 
     if (o.gmail && !o.to) fail("--gmail needs --to <email>; a draft with no recipient is not much use.");
@@ -103,11 +104,12 @@ program
   .description("Run the pipeline over a list of prospects, sequentially")
   .option("-o, --out <dir>", "output directory")
   .option("--config <file>", "agent config file", "config/agent.yaml")
+  .option("-b, --brand <key>", "which brand is sending (see `outreach brands`)")
   .option("--continue-on-error", "keep going if one prospect fails", false)
   .option("-v, --verbose", "log intermediate detail", false)
   .action(async (file: string, o) => {
     setVerbose(o.verbose);
-    const cfg = loadAgentConfig(o.config);
+    const cfg = loadAgentConfig(o.config, o.brand);
     const outDir = o.out ?? cfg.output.dir;
 
     const rows = parseCsv(fs.readFileSync(file, "utf8"));
@@ -166,9 +168,17 @@ program
   .command("validate")
   .description("Load and check the reference material without calling the API")
   .option("--config <file>", "agent config file", "config/agent.yaml")
+  .option("-b, --brand <key>", "validate one brand (default: all of them)")
   .action((o) => {
     setVerbose(true);
-    const cfg = loadAgentConfig(o.config);
+    const all = loadAgentConfig(o.config);
+    const brands = o.brand ? [o.brand] : (Object.keys(all.brands).length ? Object.keys(all.brands) : [all.activeBrand]);
+    for (const brand of brands) validateBrand(o.config, brand);
+    log.ok(`${brands.length} brand(s) valid.`);
+  });
+
+function validateBrand(configFile: string, brand: string): void {
+    const cfg = loadAgentConfig(configFile, brand);
     const corpus = loadCorpus(cfg);
 
     const byConfidentiality = corpus.caseStudies.reduce<Record<string, number>>((acc, cs) => {
@@ -185,8 +195,56 @@ program
     if (unverified > verified) {
       log.warn("Most of your results are unverified. Verify them or the emails will be vague.");
     }
-    if (!corpus.company.postalAddress) log.warn("No postalAddress set — US (CAN-SPAM) sends will flag a compliance finding.");
-    log.ok("Reference material is valid.");
+    if (!corpus.company.postalAddress?.trim()) {
+      log.warn(`${corpus.company.name}: no postalAddress — sends will flag a compliance finding.`);
+    }
+    for (const todo of findTodos(corpus.company)) log.warn(`${corpus.company.name}: ${todo}`);
+    const own = corpus.caseStudies.filter((c) => !c.brand || c.brand === corpus.brand);
+    if (own.length === 0) {
+      log.warn(`${corpus.company.name} has no case studies of its own — its emails will argue from positioning alone.`);
+    }
+}
+
+/** Surface placeholders left in a profile before they reach a prospect. */
+function findTodos(company: unknown): string[] {
+  const out: string[] = [];
+  const walk = (node: unknown, path: string) => {
+    if (typeof node === "string") {
+      if (/\bTODO\b/.test(node)) out.push(`${path} is still a TODO`);
+    } else if (Array.isArray(node)) {
+      node.forEach((v, idx) => walk(v, `${path}[${idx}]`));
+    } else if (node && typeof node === "object") {
+      for (const [k, v] of Object.entries(node)) walk(v, path ? `${path}.${k}` : k);
+    }
+  };
+  walk(company, "");
+  return out;
+}
+
+program
+  .command("brands")
+  .description("List the configured brands and how ready each is to send")
+  .option("--config <file>", "agent config file", "config/agent.yaml")
+  .action((o) => {
+    const all = loadAgentConfig(o.config);
+    const keys = Object.keys(all.brands);
+    if (keys.length === 0) return console.log("No brands configured; using config/agent.yaml paths directly.");
+
+    for (const key of keys) {
+      const cfg = loadAgentConfig(o.config, key);
+      const corpus = loadCorpus(cfg);
+      const own = corpus.caseStudies.filter((c) => !c.brand || c.brand === key);
+      const verified = own.reduce((n, c) => n + c.results.filter((r) => r.verified).length, 0);
+      const todos = findTodos(corpus.company).length;
+      const mark = todos === 0 && verified > 0 ? pc.green("ready") : pc.yellow("needs work");
+
+      console.log(
+        `${pc.bold(key.padEnd(12))} ${corpus.company.name.padEnd(14)} ` +
+          `${String(own.length).padStart(2)} case studies · ${String(verified).padStart(2)} verified results · ` +
+          `${String(todos).padStart(2)} TODOs  ${mark}`,
+      );
+    }
+    console.log(`\n${pc.dim(`Default brand: ${all.defaultBrand}. Use --brand <key> to switch.`)}`);
   });
 
 program

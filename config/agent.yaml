@@ -35,8 +35,25 @@ output:
   # Exit non-zero when the verifier blocks a draft, so CI and batch runs notice.
   failOnBlock: true
 
+# Which brand speaks when --brand is not given.
+defaultBrand: insomniacs
+
+# The sub-verticals. Each has its own profile; anything a brand does not
+# override is inherited from `paths` below, so they share one group-wide client
+# list — that is deliberate, and it is what lets the competitor scan see the
+# whole group's relationships rather than one brand's slice.
+brands:
+  insomniacs:
+    companyProfile: config/brands/insomniacs.yaml
+  absolutecx:
+    companyProfile: config/brands/absolutecx.yaml
+  brikkin:
+    companyProfile: config/brands/brikkin.yaml
+  reventers:
+    companyProfile: config/brands/reventers.yaml
+
 paths:
-  companyProfile: config/company.yaml
+  companyProfile: config/brands/insomniacs.yaml
   locales: config/locales.yaml
   industries: config/industries.yaml
   caseStudies: data/case-studies

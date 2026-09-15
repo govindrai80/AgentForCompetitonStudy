@@ -5,6 +5,9 @@
 # Run `npm run outreach -- validate` after each new case study. It checks the
 # service ids resolve and tells you how much of your evidence is unverified.
 id: your-case-study-id
+# Which brand ran this. Omit to let any brand cite it. A sibling brand's work
+# stays visible to the competitor scan but never enters another brand's pitch.
+brand: insomniacs
 client: Full legal or trading name of the client
 # public         → nameable, verified numbers quotable, testimonial usable
 # anonymized     → numbers quotable, client described only by anonymousLabel

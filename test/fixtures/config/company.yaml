@@ -1,6 +1,8 @@
 # Fixture seller. Deliberately fictional so the suite never depends on real
 # reference material, which changes as the sales team maintains it.
+brand: fixture
 name: Fixture Marketing Works
+group: Fixture Group
 website: https://fixture.example
 oneLiner: We market residential projects for developers and report on bookings.
 positioning: Built for real estate only; judged on absorption rather than impressions.

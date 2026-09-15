@@ -1,0 +1,117 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# ABSOLUTECX — drafted from absolutecx.com, NOT VERIFIED BY YOU.
+#
+# The metrics below are quoted from your own site. They are recorded here as
+# UNVERIFIED (see `forbiddenClaims` note and the results policy) because a
+# marketing-site number and a number you can defend in a meeting are not the
+# same thing. Confirm each one, then move it into a case study with
+# verified: true — only then can the agent put it in an email.
+#
+# Sources: https://absolutecx.com/ · https://in.linkedin.com/company/absolutecx
+# ─────────────────────────────────────────────────────────────────────────────
+brand: absolutecx
+name: AbsoluteCX
+group: Insomniacs
+website: https://absolutecx.com
+oneLiner: >-
+  AI-powered real estate CRM and customer-experience platform for developers,
+  builders, brokers and agencies.
+positioning: >-
+  Most developer CRMs are generic sales tools with a real estate skin, so the
+  parts that actually decide a booking — pre-sales response time, site visit
+  scheduling, channel partner operations, handover — sit outside the system in
+  spreadsheets and WhatsApp. AbsoluteCX unifies sales, pre-sales automation and
+  customer experience into one ecosystem built for how a developer actually sells.
+headquarters: "203, 2nd Floor, Ackruti Star, MIDC Central Road, Andheri East, Mumbai 400093, India"
+
+sender:
+  # TODO: confirm the sending mailbox and exact title for AbsoluteCX outreach.
+  name: TODO
+  title: TODO
+  email: TODO@absolutecx.com
+
+postalAddress: "AbsoluteCX, 203, 2nd Floor, Ackruti Star, MIDC Central Road, Andheri East, Mumbai 400093, India"
+unsubscribeLine: Reply with "no thanks" and I will not write again.
+
+services:
+  - id: crm-platform
+    name: Real Estate CRM
+    description: Lead management, pre-sales automation and inventory management in one system built for developers.
+    positioning: >-
+      Built around the developer's sales motion rather than adapted from a
+      generic pipeline tool — inventory, site visits and channel partners are
+      first-class objects, not custom fields.
+    idealFor:
+      - Developers running several projects with no single view of the funnel
+      - Sales teams whose pre-sales response time is unmeasured
+      - Builders whose inventory lives in a spreadsheet beside the CRM
+    specs:
+      deployment: "TODO — confirm SaaS, private cloud or on-premise options"
+      modules: Lead management, inventory management, site visit scheduling, channel partner operations
+      automation: WhatsApp bot automation, marketing automation
+      integrations: "TODO — confirm telephony, portal and marketing integrations"
+      data residency: "TODO — confirm; Indian enterprise developers increasingly ask first"
+      compliance: "TODO — confirm certifications (ISO 27001, SOC 2) if any"
+    proofPoints:
+      - "Site claim, unverified: in use by 100+ real estate developers and agencies"
+
+  - id: presales-ai
+    name: AI Pre-Sales and Qualification
+    description: AI bots that qualify and route enquiries before a human picks up the phone.
+    positioning: >-
+      The gap between enquiry and first contact is where most developer pipelines
+      leak. Automated qualification closes it without adding headcount.
+    idealFor:
+      - Developers with high enquiry volume and a small pre-sales team
+      - Launches where response time decides the site visit
+    specs:
+      channels: WhatsApp bot, automated routing
+      function: Lead qualification and routing ahead of manual call handling
+    proofPoints:
+      - "Site claim, unverified: 4.2x faster lead qualification with AI bots versus manual call routing"
+
+  - id: cx-handover
+    name: Customer Experience and Handover
+    description: Post-booking customer experience through to possession and handover.
+    positioning: >-
+      The period between booking and handover is where developer reputation is
+      actually made, and it is usually the least instrumented part of the
+      business.
+    idealFor:
+      - Developers with projects approaching possession
+      - Builders facing repeat customer-service escalations
+    specs:
+      scope: Post-booking customer experience, handover workflow
+      service levels: "Site claim, unverified: 99.4% SLA resolution within target timeframe"
+    proofPoints:
+      - "Site claim, unverified: 68% reduction in cost per site visit booking"
+
+differentiators:
+  - Built only for real estate — inventory, site visits and channel partners are native concepts
+  - Pre-sales, sales and post-booking experience in one system rather than three
+  - Backed by an agency that runs the campaigns feeding the CRM, so attribution is end to end
+
+disqualifiers:
+  - Direct competitor of an existing client in the same micro-market, without written clearance from both
+  - Developer with a single project and no pre-sales team — there is no process to systematise
+  - "TODO: minimum portfolio size or seat count below which this is not worth pursuing"
+
+forbiddenClaims:
+  - guaranteed returns
+  - assured returns
+  - we guarantee
+  - guarantee a
+  - "no. 1"
+
+researchHints:
+  - RERA portals for the relevant state — registered projects, launch dates and declared inventory tell you portfolio size and pre-sales load
+  - The developer's careers page — openings for pre-sales, CRM or sales-ops roles usually mean the current system has failed
+  - Which CRM they currently run, visible in job adverts, integration partner pages and their own tech blog
+  - Listed developers' investor presentations, which state collections, absorption and launch pipeline directly
+  - Their channel-partner portal, if any, for how broker operations are handled today
+
+# Public handles. The absolutecx.com homepage carries no social links; only the
+# LinkedIn company page was findable.
+social:
+  linkedin: https://in.linkedin.com/company/absolutecx
+  # TODO: Instagram, YouTube, X handles for AbsoluteCX, if they exist

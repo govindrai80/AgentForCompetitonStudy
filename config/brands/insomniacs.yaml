@@ -19,7 +19,9 @@
 #   https://insomniacs.in/case-studies/the-house-of-abhinandan-lodha/
 # ─────────────────────────────────────────────────────────────────────────────
 
+brand: insomniacs
 name: Insomniacs
+group: Insomniacs
 website: https://insomniacs.in
 oneLiner: >-
   India's real estate-focused marketing and technology network — strategy,
@@ -187,3 +189,8 @@ researchHints:
   - Channel-partner and broker chatter on LinkedIn, for what is actually moving
   - Listed developers' investor presentations and earnings calls, which state absorption, collections and launch pipeline directly
   - Their social and paid presence — what they are currently running tells you what they believe is working
+
+# Public handles. Sourced; incomplete — add the rest as you confirm them.
+social:
+  linkedin: https://www.linkedin.com/company/beinsomniacs
+  # TODO: Instagram, YouTube, X handles for Insomniacs
