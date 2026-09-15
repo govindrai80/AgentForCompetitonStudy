@@ -2,6 +2,7 @@ import type { AgentConfig } from "../config.js";
 import type { Claude } from "../anthropic.js";
 import type { Corpus } from "../corpus/load.js";
 import { quotableFacts, shortlist, type ScoredCaseStudy } from "../corpus/match.js";
+import { competitorCaseStudyIds, type CompetitorIntel } from "../corpus/competitors.js";
 import { MatchPlanSchema, type MatchPlan, type ProspectResearch } from "../types.js";
 import { log } from "../util/logger.js";
 
@@ -10,8 +11,14 @@ export async function selectEvidence(
   cfg: AgentConfig,
   corpus: Corpus,
   research: ProspectResearch,
+  competitorIntel: CompetitorIntel,
 ): Promise<{ plan: MatchPlan; shortlisted: ScoredCaseStudy[] }> {
-  const shortlisted = shortlist(corpus.caseStudies, research, cfg.matching.shortlistSize);
+  const shortlisted = shortlist(
+    corpus.caseStudies,
+    research,
+    cfg.matching.shortlistSize,
+    competitorCaseStudyIds(competitorIntel),
+  );
   if (shortlisted.length === 0) {
     throw new Error(
       "No usable case studies. Every case study is marked internal_only, or the library is empty.",
@@ -37,7 +44,8 @@ export async function selectEvidence(
           `- resultsToCite must be exact substrings of the QUOTABLE lines.\n` +
           `- specsToSurface must be exact spec keys from the service definitions. Pick the two or three a buyer in this industry would actually ask about.\n` +
           `- Check the seller's disqualifiers against the research. If any fires, list it in disqualifierHits — that is a recommendation not to send.\n` +
-          `- risks: what would make this outreach land badly. Be blunt. "Nothing" is almost never true.`,
+          `- If one of the shortlisted clients is a competitor of the prospect, that is usually the right case study — it is the only kind of proof the prospect cannot dismiss as irrelevant. Say so in the rationale.\n` +
+          `- risks: what would make this outreach land badly. Be blunt. "Nothing" is almost never true. A competitor relationship belongs here as well as in the pitch: it can read as insight or as indiscretion depending on how it is written.`,
       },
       { text: sellerSheet(corpus), cache: true },
     ],
@@ -47,6 +55,7 @@ export async function selectEvidence(
       JSON.stringify(compactResearch(research), null, 2),
       "```",
       ``,
+      competitorSection(competitorIntel),
       `## Shortlisted case studies (pre-ranked by a deterministic filter; the score is a hint, not an instruction)`,
       ...shortlisted.map((s) => renderCaseStudy(s)),
     ].join("\n"),
@@ -58,6 +67,27 @@ export async function selectEvidence(
       .slice(0, cfg.matching.maxCited);
   }
   return { plan, shortlisted };
+}
+
+function competitorSection(intel: CompetitorIntel): string {
+  if (!intel.leverage.length && !intel.silent.length) {
+    return intel.unmatched.length
+      ? `## Competitor overlap\nNone. We have no recorded relationship with any of the prospect's competitors (${intel.unmatched.join(", ")}).\n`
+      : "";
+  }
+  return [
+    `## Competitor overlap`,
+    ...intel.leverage.map(
+      (l) => `- USABLE: ${l.referAs} is a ${l.relationship} competitor of the prospect and is our client. ${l.note}`,
+    ),
+    ...intel.silent.map(
+      (l) => `- NOT USABLE: we have a relationship with ${l.competitor}, a ${l.relationship} competitor, but may not reference it in any form. Do not build the pitch on it.`,
+    ),
+    intel.unmatched.length ? `- No relationship with: ${intel.unmatched.join(", ")}` : "",
+    ``,
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
 
 function renderCaseStudy(s: ScoredCaseStudy): string {
@@ -125,9 +155,9 @@ function compactResearch(r: ProspectResearch) {
     productsAndServices: r.productsAndServices,
     techSignals: r.techSignals,
     recentDevelopments: r.recentDevelopments.map((d) => ({ headline: d.headline, whyItMatters: d.whyItMatters })),
+    competitors: r.competitors.map((c) => ({ name: c.name, relationship: c.relationship, basis: c.basis })),
     likelyPains: r.likelyPains.map((p) => ({ pain: p.pain, evidence: p.evidence })),
     buyingContext: r.buyingContext,
-    competitors: r.competitors,
     regulatoryNotes: r.regulatoryNotes,
     confidence: r.confidence,
     gaps: r.gaps,

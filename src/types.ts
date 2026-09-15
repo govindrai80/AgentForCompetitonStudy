@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { CompetitorIntel } from "./corpus/competitors.js";
 
 /* ────────────────────────────────────────────────────────────────────────────
  * Reference material — what *we* know about ourselves.
@@ -52,6 +53,12 @@ export const CompanyProfileSchema = z.object({
   disqualifiers: z.array(z.string()).default([]),
   /** Claims we are contractually or legally not allowed to make. Enforced. */
   forbiddenClaims: z.array(z.string()).default([]),
+  /**
+   * Where a researcher should look for this seller's kind of prospect. Injected
+   * into the analyst brief so source guidance is configuration rather than a
+   * hard-coded assumption about what industry we sell into.
+   */
+  researchHints: z.array(z.string()).default([]),
   sender: SenderSchema,
   /** Postal address — required by CAN-SPAM for US recipients. */
   postalAddress: z.string().optional(),
@@ -219,7 +226,17 @@ export const ProspectResearchSchema = z.object({
     probableTriggers: z.array(z.string()),
     procurementNotes: z.string().nullable(),
   }),
-  competitors: z.array(z.string()),
+  competitors: z.array(
+    Cited({
+      name: z.string(),
+      relationship: z
+        .enum(["direct", "adjacent", "aspirational"])
+        .describe(
+          "direct: competes for the same buyers in the same market. adjacent: overlapping but not head-to-head. aspirational: who the prospect measures itself against.",
+        ),
+      basis: z.string().describe("Why they compete — same segment, same geography, same product."),
+    }),
+  ),
   regionalNotes: z.array(z.string()).describe("Market, cultural and regulatory context for outreach."),
   regulatoryNotes: z.array(z.string()),
   confidence: z.enum(["high", "medium", "low"]),
@@ -299,6 +316,7 @@ export type Verification = z.infer<typeof VerificationSchema>;
 export interface RunArtifacts {
   prospect: string;
   research: ProspectResearch;
+  competitorIntel: CompetitorIntel;
   plan: MatchPlan;
   draft: EmailDraft;
   verification: Verification;

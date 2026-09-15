@@ -178,27 +178,65 @@ function crossCheck(company: CompanyProfile, caseStudies: CaseStudy[]): void {
   if (problems.length) throw new Error(`Reference material is inconsistent:\n  · ${problems.join("\n  · ")}`);
 }
 
-export function resolveLocale(locales: LocaleProfile[], country: string | null): LocaleProfile {
+/**
+ * Resolve the locale profile, city first.
+ *
+ * Country-level calibration is too coarse where the real differences are
+ * metro-level — a Mumbai developer and a Bengaluru developer buy differently
+ * enough that one "India" profile would flatten the thing that makes the email
+ * land. An explicit override beats both.
+ */
+export function resolveLocale(
+  locales: LocaleProfile[],
+  country: string | null,
+  city?: string | null,
+): LocaleProfile {
   const fallback = locales.find((l) => l.code === "DEFAULT") ?? locales[0]!;
-  if (!country) return fallback;
-  const needle = country.trim().toLowerCase();
-  return (
+  const byName = (needle: string) =>
     locales.find((l) => l.code.toLowerCase() === needle) ??
     locales.find((l) => l.label.toLowerCase() === needle) ??
-    fallback
-  );
+    // "Mumbai" should reach "Mumbai Metropolitan Region".
+    locales.find((l) => l.label.toLowerCase().includes(needle) && needle.length >= 4);
+
+  for (const candidate of [city, country]) {
+    if (!candidate) continue;
+    const hit = byName(candidate.trim().toLowerCase());
+    if (hit) return hit;
+  }
+  return fallback;
 }
 
+/**
+ * Pick the register profile, most specific first.
+ *
+ * Sub-sectors are checked before the primary industry, because the generic
+ * segment would otherwise shadow the specific one: a luxury residential
+ * developer matched "real estate" before it ever reached "luxury", and got the
+ * blander of the two profiles.
+ */
 export function resolveIndustryStyle(
   industries: IndustryStyle[],
   primary: string,
   subSectors: string[],
 ): IndustryStyle | null {
-  const hay = [primary, ...subSectors].join(" ").toLowerCase();
+  const fallback = industries.find((s) => s.key === "default") ?? null;
+  const generic = (s: IndustryStyle) => s.key === "default";
+
+  const matchIn = (text: string) => {
+    const hay = text.toLowerCase();
+    // Longest key first, so "plotted development" beats "plotted".
+    return [...industries]
+      .filter((s) => !generic(s))
+      .sort((a, b) => b.key.length - a.key.length)
+      .find((s) => hay.includes(s.key.toLowerCase()));
+  };
+
   return (
-    industries.find((s) => hay.includes(s.key.toLowerCase())) ??
-    industries.find((s) => s.label.toLowerCase().split(/\s+/).some((w) => w.length > 4 && hay.includes(w))) ??
-    industries.find((s) => s.key === "default") ??
-    null
+    matchIn(subSectors.join(" ")) ??
+    matchIn(primary) ??
+    industries.find(
+      (s) => !generic(s) && s.label.toLowerCase().split(/\s+/).some((w) => w.length > 4 && primary.toLowerCase().includes(w)),
+    ) ??
+    fallback
   );
 }

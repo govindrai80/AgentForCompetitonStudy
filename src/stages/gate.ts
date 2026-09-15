@@ -1,5 +1,7 @@
 import type { Corpus } from "../corpus/load.js";
 import type { EvidencePack } from "./evidence.js";
+import { mentionsName } from "../util/names.js";
+import type { CompetitorIntel } from "../corpus/competitors.js";
 import type { EmailDraft, GateFinding, LocaleProfile } from "../types.js";
 
 const FILLER = [
@@ -35,8 +37,9 @@ export function runGate(args: {
   evidence: EvidencePack;
   corpus: Corpus;
   locale: LocaleProfile;
+  competitorIntel?: CompetitorIntel;
 }): GateFinding[] {
-  const { draft, evidence, corpus, locale } = args;
+  const { draft, evidence, corpus, locale, competitorIntel } = args;
   const findings: GateFinding[] = [];
   const body = draft.body;
   const lower = body.toLowerCase();
@@ -86,6 +89,51 @@ export function runGate(args: {
           );
         }
       }
+    }
+  }
+
+  /* --- Clients recorded outside the case-study library --- */
+  // clients.csv carries relationships with no case study behind them. They are
+  // still bound by whether we are cleared to name them.
+  const caseStudyClients = new Set(corpus.caseStudies.map((c) => c.client.toLowerCase()));
+  for (const client of corpus.clients) {
+    if (client.nameable || caseStudyClients.has(client.name.toLowerCase())) continue;
+    if (mentionsName(body, client.name)) {
+      add(
+        "blocker",
+        "confidentiality",
+        `"${client.name}" is on the client list but is not cleared to be named, and appears in the body.`,
+      );
+    }
+  }
+
+  /* --- Competitor leverage: the strongest line in the email, and the riskiest --- */
+  if (competitorIntel) {
+    for (const silent of competitorIntel.silent) {
+      if (mentionsName(body, silent.competitor) || mentionsName(body, silent.origin.kind === "case-study" ? silent.origin.client : silent.origin.name)) {
+        add(
+          "blocker",
+          "competitor-not-nameable",
+          `The body references our relationship with ${silent.competitor}, which we are not cleared to disclose. ${silent.note}`,
+        );
+      }
+    }
+    for (const possible of competitorIntel.possible) {
+      const named = possible.origin.kind === "case-study" ? possible.origin.client : possible.origin.name;
+      if (mentionsName(body, named)) {
+        add(
+          "major",
+          "competitor-weak-match",
+          `The body leans on "${named}" as a competitor of the prospect, but the name match is weak: ${possible.match.reason}. Confirm they are actually the same company before sending.`,
+        );
+      }
+    }
+    for (const caution of competitorIntel.cautions) {
+      add(
+        caution.severity,
+        "competitor-conflict",
+        caution.reason,
+      );
     }
   }
 
@@ -153,34 +201,6 @@ export const worstSeverity = (findings: GateFinding[]): "blocker" | "major" | "m
       : findings.length
         ? "minor"
         : "none";
-
-const LEGAL_SUFFIXES =
-  /[,\s]+\b(inc|incorporated|llc|l\.l\.c|ltd|limited|plc|corp|corporation|co|company|gmbh|ag|kg|ug|ab|asa|as|a\/s|aps|oy|oyj|nv|bv|sa|sas|sarl|srl|spa|pte|pty|pvt|private limited|kk|kabushiki kaisha|holdings|group)\b\.?/gi;
-
-/**
- * Does the body name this client?
- *
- * Deliberately generous. A model that drops the legal suffix, or writes only
- * the distinctive part of the name, has still named the client — and on a
- * confidentiality check the asymmetry is stark: a false positive costs a human
- * ten seconds reading the brief, a false negative breaches a contract. Word
- * boundaries keep it from firing on "Meridianum" when the client is "Meridian".
- */
-function mentionsName(body: string, name: string): boolean {
-  const cleaned = name.replace(LEGAL_SUFFIXES, "").trim();
-  if (cleaned.length < 3) return false;
-
-  const candidates = new Set<string>([name.trim(), cleaned]);
-  const words = cleaned.split(/\s+/);
-  // A distinctive leading token on its own is enough — "Lindqvist" identifies
-  // "Lindqvist Betalningar AB". Short or generic-length tokens are not.
-  if (words.length > 1 && (words[0]?.length ?? 0) >= 5) candidates.add(words[0]!);
-
-  return [...candidates].some((candidate) => {
-    const escaped = candidate.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return new RegExp(`(^|[^\\w])${escaped}([^\\w]|$)`, "i").test(body);
-  });
-}
 
 /** Percentages, multiples, currency and bare numbers, normalised for comparison. */
 function figuresIn(text: string): string[] {

@@ -1,6 +1,9 @@
 # Register and vocabulary by buyer type. Matched loosely against the researched
-# industry, with `default` as the fallback. Add your own as you learn which
-# framings actually earn replies.
+# industry and sub-sectors, with `default` as the fallback.
+#
+# For Insomniacs the meaningful axis is developer segment, not "industry" —
+# a luxury promoter and a plotted-land developer buy marketing differently and
+# judge it on different numbers.
 
 industries:
   - key: default
@@ -13,100 +16,125 @@ industries:
       - Unexplained internal jargon
     specsThatMatter: []
 
-  - key: saas
-    label: B2B SaaS
+  - key: real estate
+    label: Real estate developer (general)
     notes:
-      - The reader is usually technical or technical-adjacent. Vagueness reads as ignorance.
-      - Name the specific failure mode, not the category. "p95 on the reporting endpoint" beats "performance issues".
-      - Say how you would measure the result before you say what the result would be.
-      - Respect that they have almost certainly tried the obvious fix already.
+      - The only numbers that matter are bookings, absorption against target, and cost per booking. Leads and impressions are means, not results.
+      - Name the micro-market. A developer can tell instantly whether you understand their catchment.
+      - Inventory ageing is the pain nobody advertises. A slow tower is worth more to them than a launch.
+      - Assume they are pitched constantly. The opening line has to be something they have not read before.
     vocabulary:
-      - p95 / p99 latency
-      - error budget
-      - multi-tenancy
-      - time to first byte
-      - cost per tenant
-      - migration path
+      - absorption rate
+      - cost per booking
+      - site visits
+      - inventory ageing
+      - channel partner
+      - micro-market
+      - carpet area
+      - possession timeline
+      - RERA registration
     avoid:
-      - "digital transformation"
-      - "end-to-end solution"
-      - "unlock value"
+      - '"brand building" with no measurement attached'
+      - "360-degree campaign"
+      - impressions and reach as headline outcomes
+    specsThatMatter:
+      - attribution
+      - reporting cadence
+      - markets
+      - engagement model
+      - compliance
+
+  - key: luxury
+    label: Luxury and premium residential
+    notes:
+      - Discretion is the product. Volume tactics read as damage to the brand.
+      - The buyer pool is small and known; targeting precision matters more than reach.
+      - NRI and HNI channels are usually a material share of the sale.
+    vocabulary:
+      - HNI
+      - NRI
+      - private preview
+      - curated inventory
+      - per-square-foot realisation
+    avoid:
+      - Discount framing
+      - Mass-market performance language
+    specsThatMatter:
+      - markets
+      - attribution
+      - engagement model
+
+  - key: plotted
+    label: Plotted development and branded land
+    notes:
+      - There is no show flat. The entire sale is trust in the brand and clarity of title, so the marketing problem is credibility rather than desire.
+      - Investment framing dominates — but appreciation and returns claims are a regulatory trap. Keep to what is documented.
+      - Buyers are frequently out of state, so regional creative variance matters more here than anywhere else.
+    vocabulary:
+      - clear title
+      - land parcel
+      - appreciation corridor
+      - infrastructure trigger
+      - second home
+    avoid:
+      - Any promise of returns or assured appreciation
+      - Vague "investment opportunity" language with no substantiation
+    specsThatMatter:
+      - markets
+      - compliance
+      - attribution
+
+  - key: commercial
+    label: Commercial and office
+    notes:
+      - The buyer is an institution or a business, not a family. Yield, tenancy and fit-out timelines are the frame.
+      - Sales cycles are long and committee-driven; write for forwarding.
+    vocabulary:
+      - yield
+      - grade A
+      - tenancy
+      - fit-out
+      - leasable area
+    avoid:
+      - Emotional or lifestyle framing
     specsThatMatter:
       - engagement model
-      - typical duration
-      - deployment
-      - observability stack
-      - handover
+      - reporting cadence
+      - attribution
 
-  - key: fintech
-    label: Fintech and financial services
+  - key: affordable
+    label: Affordable and mid-income housing
     notes:
-      - Compliance posture and audit evidence come before capability.
-      - Name the certifications and the residency options explicitly and early.
-      - Reversibility matters more than speed. Say how the work can be undone.
+      - Volume business with thin margins. Cost per booking is the entire conversation.
+      - Home-loan eligibility and subsidy schemes drive conversion more than creative does.
+      - Channel-partner performance often outweighs digital — say how your work supports it rather than replacing it.
     vocabulary:
-      - audit trail
-      - data residency
-      - reconciliation
-      - change control
-      - segregation of duties
-    avoid:
-      - "move fast"
-      - "disrupt"
-    specsThatMatter:
-      - compliance
-      - data residency
-      - handover
-      - engagement model
-
-  - key: health
-    label: Healthcare and life sciences
-    notes:
-      - Regulatory framing first. Clinical or patient impact second. Efficiency last.
-      - Procurement is slow and committee-driven; write for forwarding.
-    vocabulary:
-      - validated environment
-      - audit trail
-      - data residency
-      - interoperability
-    avoid:
-      - Casual tone
-      - Efficiency-only arguments
-    specsThatMatter:
-      - compliance
-      - data residency
-      - deployment
-
-  - key: ecommerce
-    label: E-commerce and marketplaces
-    notes:
-      - Peak-season risk is the strongest hook. Anchor to their calendar.
-      - Conversion and page-speed economics are well understood by this buyer.
-    vocabulary:
-      - peak traffic
+      - cost per booking
+      - loan eligibility
+      - channel partner
       - conversion rate
-      - checkout latency
-      - cart abandonment
+      - walk-ins
     avoid:
-      - Generic "scale" language with no event attached
+      - Premium or lifestyle positioning
+      - Anything that reads as expensive
     specsThatMatter:
-      - typical duration
+      - attribution
+      - reporting cadence
       - engagement model
-      - deployment
 
-  - key: logistics
-    label: Logistics and supply chain
+  - key: proptech
+    label: Proptech and real estate SaaS
     notes:
-      - Uptime and integration surface matter more than features.
-      - Legacy system constraints are a given, not an embarrassment — acknowledge them.
+      - Technical buyer. Integration surface and data ownership come up early.
+      - They will ask how your platform differs from what they could build.
     vocabulary:
-      - EDI
-      - track and trace
-      - exception handling
-      - cutover
+      - integrations
+      - API
+      - data residency
+      - funnel instrumentation
     avoid:
-      - Implying their existing systems are obsolete
+      - Agency-speak
     specsThatMatter:
-      - deployment
-      - handover
-      - typical duration
+      - integrations
+      - products
+      - adoption

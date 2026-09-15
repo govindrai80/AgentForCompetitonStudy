@@ -137,20 +137,116 @@ locales:
     label: India
     formality: medium
     directness: medium
-    greeting: "Hi {firstName},"
+    greeting: "Dear {fullName},"
     signOff: "Best regards,"
     subjectMaxChars: 60
     bodyMaxWords: 150
     notes:
-      - "Relationship and credibility markers matter: named clients, years in market, referrals."
-      - Be explicit about the next step; ambiguity stalls threads.
-      - English is standard for B2B; register sits slightly more formal than US.
+      - "Credibility markers do the work: named developers you have worked with, years in the sector, scale of inventory handled."
+      - Be explicit about the next step. Ambiguity stalls threads for weeks.
+      - English is standard for B2B; the register sits a shade more formal than US.
+      - The first responder is often not the decision maker. Write so the mail can be forwarded without losing its argument.
     avoid:
-      - Over-familiarity with senior people on first contact
-      - Assuming the first responder is the decision maker
+      - Over-familiarity with a promoter or director on first contact
+      - Discounting or rate-card talk in a first email
     compliance:
-      - "DPDP Act 2023: process personal data on a lawful basis and honour withdrawal requests"
+      - "RERA (Act 2016, s.11): any advertisement for a registered project must prominently carry the RERA registration number and the authority's website"
+      - "ASCI code: superlatives and comparative claims must be substantiable"
+      - "DPDP Act 2023: process personal data on a lawful basis and honour withdrawal"
       - Provide a clear opt-out
+
+  - code: IN-MMR
+    label: Mumbai Metropolitan Region
+    formality: medium
+    directness: high
+    greeting: "Dear {fullName},"
+    signOff: "Best regards,"
+    subjectMaxChars: 55
+    bodyMaxWords: 140
+    notes:
+      - The most competitive developer market in the country. Assume they are already pitched weekly and open with something they have not heard.
+      - Per-square-foot economics and absorption rate are the language. Vague "brand building" loses the room.
+      - Micro-market matters more than city — a Thane pitch and a South Bombay pitch are different conversations.
+      - Redevelopment and approvals timelines are a live constraint for most MMR developers.
+    avoid:
+      - Generic national campaign framing
+      - Treating MMR as one market
+    compliance:
+      - "MahaRERA registration number must appear on advertising for registered projects"
+      - "ASCI code: superlatives and comparative claims must be substantiable"
+
+  - code: IN-NCR
+    label: Delhi NCR
+    formality: high
+    directness: medium
+    greeting: "Dear {fullName},"
+    signOff: "Best regards,"
+    subjectMaxChars: 60
+    bodyMaxWords: 150
+    notes:
+      - Relationship and referral weigh heavily. A named mutual connection is worth more than a metric.
+      - Luxury and second-home buyers dominate the premium segment; investment framing lands.
+      - Gurugram, Noida and Delhi proper behave as separate markets with separate regulators.
+    avoid:
+      - Cold transactional framing with no credibility anchor
+      - Assuming NCR buying behaviour matches Mumbai
+    compliance:
+      - "RERA registration number required on advertising; note the relevant state authority (HARERA, UP-RERA, or Delhi)"
+      - "ASCI code: superlatives and comparative claims must be substantiable"
+
+  - code: IN-BLR
+    label: Bengaluru
+    formality: low
+    directness: high
+    greeting: "Hi {firstName},"
+    signOff: "Best regards,"
+    subjectMaxChars: 55
+    bodyMaxWords: 130
+    notes:
+      - The most data-literate developer market. Attribution, funnel metrics and dashboards are understood and expected.
+      - End-user driven rather than investor driven; messaging tilts to liveability over appreciation.
+      - Tech-sector employment cycles move demand — a hiring freeze at a large employer is a real signal.
+    avoid:
+      - Appreciation and investment-return framing
+      - Claims without a measurement method attached
+    compliance:
+      - "K-RERA registration number required on advertising for registered projects"
+      - "ASCI code: superlatives and comparative claims must be substantiable"
+
+  - code: IN-HYD
+    label: Hyderabad
+    formality: medium
+    directness: high
+    greeting: "Dear {fullName},"
+    signOff: "Best regards,"
+    subjectMaxChars: 55
+    bodyMaxWords: 140
+    notes:
+      - Supply-led market with fast launch cycles; absorption against a launch calendar is the frame that lands.
+      - Large-format and gated township product is common — creative has to carry scale.
+      - NRI demand is a meaningful share of premium inventory.
+    avoid:
+      - Assuming Mumbai-style constraint economics
+    compliance:
+      - "TG-RERA registration number required on advertising for registered projects"
+      - "ASCI code: superlatives and comparative claims must be substantiable"
+
+  - code: IN-PNQ
+    label: Pune
+    formality: medium
+    directness: high
+    greeting: "Hi {firstName},"
+    signOff: "Best regards,"
+    subjectMaxChars: 55
+    bodyMaxWords: 130
+    notes:
+      - Price-sensitive and end-user led, with a large first-time-buyer segment.
+      - Frequently sold alongside Mumbai inventory by the same developer — check whether the prospect runs both.
+    avoid:
+      - Luxury framing on mid-income product
+    compliance:
+      - "MahaRERA registration number must appear on advertising for registered projects"
+      - "ASCI code: superlatives and comparative claims must be substantiable"
 
   - code: SG
     label: Singapore
@@ -181,6 +277,7 @@ locales:
       - Titles and formal address matter on first contact.
       - Reputation markers — who else you work with in the region — carry weight.
       - The working week is Monday to Friday; avoid Friday-afternoon sends.
+      - The largest NRI market for Indian residential property. If the prospect sells to NRIs, this is where their media goes.
     avoid:
       - First names before invitation
       - Pressure tactics

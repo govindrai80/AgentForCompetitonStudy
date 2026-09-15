@@ -35,6 +35,7 @@ How to write:
 - Name clients only using the exact "name them exactly as" string.
 - Surface specifications only when a buyer in this industry would want them, and state them verbatim.
 - No filler: "I hope this email finds you well", "I wanted to reach out", "revolutionary", "game-changing", "synergy", "leverage" as a verb, "circle back". No exclamation marks.
+- If the evidence pack shows you have worked with a competitor of theirs, that is usually the strongest sentence in the email — but the framing decides whether it lands as credibility or as a threat. Write it as the reason you understand their market. Never imply you will bring a rival's playbook, never hint at anything confidential about the rival, and never use it as pressure ("your competitors are already doing this"). If you cannot write it without one of those, leave it out.
 - One clear, low-friction ask. A first email asks for a reply or fifteen minutes, not a signed contract.
 - Write the body as plain text with real line breaks. No markdown, no bullet characters unless the locale guidance calls for them, no placeholders like [Company] — every field is known to you.
 

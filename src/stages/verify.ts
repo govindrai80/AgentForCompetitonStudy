@@ -18,9 +18,10 @@ Check, in order:
 1. Unsupported claims — any assertion about the prospect, the market, or a result that the pack does not establish. Quote the exact text.
 2. Overstatement — a claim the pack supports weakly stated strongly. "Reduced costs" evidenced by one engagement is not "consistently reduces costs". A number restated as a rounder, larger, or differently-framed number is overstatement.
 3. Confidentiality — a client named where the pack's "name them exactly as" string is an anonymous label, or a number the pack marked DO NOT QUOTE.
-4. Forbidden claims — anything on the seller's forbidden list, in substance rather than wording.
-5. Tone and locale — measured against the locale and industry guidance, not your own taste. Flag only what would actually cost a reply in that market.
-6. Compliance — the locale's legal footer requirements.
+4. Competitor framing — where the email references a competitor of the recipient, check three things: that the pack licenses naming them at all; that nothing is implied about that competitor's confidential arrangements or results beyond what the pack states; and that the relationship is used as evidence of market understanding rather than as pressure or as an implied offer to transfer a rival's work. Any of those three is a blocker.
+5. Forbidden claims — anything on the seller's forbidden list, in substance rather than wording.
+6. Tone and locale — measured against the locale and industry guidance, not your own taste. Flag only what would actually cost a reply in that market.
+7. Compliance — the locale's legal footer requirements.
 
 Severity:
 - blocker: would mislead the recipient, breach a confidentiality constraint, or break the law. The email cannot be sent.

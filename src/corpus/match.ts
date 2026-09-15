@@ -36,6 +36,8 @@ export function shortlist(
   caseStudies: CaseStudy[],
   research: ProspectResearch,
   limit: number,
+  /** Case studies whose client is a confirmed competitor of the prospect. */
+  competitorCaseStudyIds: ReadonlySet<string> = new Set(),
 ): ScoredCaseStudy[] {
   const thisYear = new Date().getUTCFullYear();
 
@@ -45,6 +47,14 @@ export function shortlist(
     .map((cs) => {
       const reasons: string[] = [];
       let score = 0;
+
+      // Having worked for a company the prospect competes with outranks every
+      // other signal here: it is the difference between "we understand your
+      // sector" and "we have already solved this for the firm across the road".
+      if (competitorCaseStudyIds.has(cs.id)) {
+        score += 70;
+        reasons.push("client is a direct competitor of the prospect");
+      }
 
       const industryHit = tokenOverlap(cs.industry, research.industry.primary);
       if (industryHit > 0) {

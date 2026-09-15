@@ -1,5 +1,6 @@
 import type { Corpus } from "../corpus/load.js";
 import { quotableFacts } from "../corpus/match.js";
+import type { CompetitorIntel } from "../corpus/competitors.js";
 import type { MatchPlan, ProspectResearch } from "../types.js";
 
 /**
@@ -19,6 +20,7 @@ export function buildEvidencePack(
   corpus: Corpus,
   research: ProspectResearch,
   plan: MatchPlan,
+  competitorIntel?: CompetitorIntel,
 ): EvidencePack {
   const facts = new Map<string, string>();
   const sections: string[] = [];
@@ -140,5 +142,36 @@ export function buildEvidencePack(
   }
   sections.push(`## Our positioning and specifications\n${svcLines.join("\n")}`);
 
+  /* ---- Competitive leverage, where we are cleared to use it ---- */
+  // Only the `leverage` bucket reaches this point. Silent matches (real but
+  // undisclosable) and weak matches (possibly a different company) are kept out
+  // of the writer's world entirely — they go to the brief, for a human.
+  const usable = competitorIntel?.leverage ?? [];
+  if (usable.length) {
+    const lines = usable.map((l) => {
+      const ref = `comp:${slugRef(l.competitor)}`;
+      const body =
+        `${l.referAs} competes with ${research.company.displayName} (${l.relationship}) and is our client` +
+        (l.origin.kind === "case-study" ? `, written up as case study ${l.origin.id}` : ", with no case study behind it");
+      facts.set(ref, body);
+      return [
+        `- [${ref}] ${l.referAs} — a ${l.relationship} competitor of the prospect, and our client`,
+        `    refer to them exactly as: "${l.referAs}"`,
+        l.origin.kind === "case-study"
+          ? `    the engagement is written up as case study ${l.origin.id} — its results above are the ones you may cite`
+          : `    relationship only: you may say we work with them, and you have NO numbers for them`,
+        `    ${l.note}`,
+      ].join("\n");
+    });
+    sections.push(
+      `## Competitors of the prospect that are our clients\n` +
+        `This is the strongest material available to you, and the easiest to misuse. Reference the relationship as a reason you understand their market — never as a boast, a threat, or an implied disclosure of what a rival is doing.\n` +
+        lines.join("\n"),
+    );
+  }
+
   return { facts, rendered: sections.join("\n\n"), allowedRefs: [...facts.keys()] };
 }
+
+const slugRef = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "unknown";

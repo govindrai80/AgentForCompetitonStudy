@@ -71,6 +71,44 @@ export function renderBrief(
     md.push(`| ${escapePipes(c.text)} | \`${c.evidenceRef}\` |`),
   );
 
+  /* ---------------- Competitive position ---------------- */
+  const ci = a.competitorIntel;
+  md.push("", "---", "", "## Competitor overlap", "");
+  if (r.competitors.length === 0) {
+    md.push("Research named no competitors. That is usually a sign the research was thin, not that they have none.");
+  } else {
+    md.push(`Research named ${r.competitors.length} competitor(s):`);
+    r.competitors.forEach((c) =>
+      md.push(`- **${c.name}** — *${c.relationship}* — ${c.basis} ${c.sourceIds.map((x) => `[${x}]`).join("")}`),
+    );
+  }
+
+  if (ci.leverage.length) {
+    md.push("", "### Usable in the email");
+    ci.leverage.forEach((l) =>
+      md.push(`- **${l.referAs}** (${l.relationship} competitor) — ${l.note}`, `  - matched because ${l.match.reason}`),
+    );
+  }
+  if (ci.silent.length) {
+    md.push("", "### Real, but not referenceable");
+    ci.silent.forEach((l) => md.push(`- **${l.competitor}** — ${l.note}`));
+  }
+  if (ci.possible.length) {
+    md.push("", "### Needs your eyes — weak name match");
+    ci.possible.forEach((l) =>
+      md.push(
+        `- **${l.competitor}** may be the same company as our client ${l.origin.kind === "case-study" ? l.origin.client : l.origin.name}: ${l.match.reason}. Not used in the email.`,
+      ),
+    );
+  }
+  if (ci.cautions.length) {
+    md.push("", "### Cautions");
+    ci.cautions.forEach((c) => md.push(`- **${c.severity}** — ${c.reason}`));
+  }
+  if (ci.unmatched.length) {
+    md.push("", `No recorded relationship with: ${ci.unmatched.join(", ")}`);
+  }
+
   /* ---------------- Why these proofs ---------------- */
   md.push("", "---", "", "## Why this pitch", "");
   md.push(`**Angle:** ${a.plan.pitchAngle}`, "");
@@ -112,7 +150,7 @@ export function renderBrief(
   md.push(`**Markets:** ${r.market.countriesServed.join(", ") || "—"} · **Primary region:** ${r.market.primaryRegion} · **Languages:** ${r.market.languages.join(", ") || "—"}`);
   if (r.productsAndServices.length) md.push("", `**Products/services:** ${r.productsAndServices.join(" · ")}`);
   if (r.techSignals.length) md.push(`**Tech signals:** ${r.techSignals.join(" · ")}`);
-  if (r.competitors.length) md.push(`**Competitors:** ${r.competitors.join(", ")}`);
+  if (r.competitors.length) md.push(`**Competitors:** ${r.competitors.map((c) => c.name).join(", ")}`);
 
   if (r.recentDevelopments.length) {
     md.push("", `### Recent developments`);

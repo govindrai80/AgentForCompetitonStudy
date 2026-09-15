@@ -1,0 +1,38 @@
+# Fixture seller. Deliberately fictional so the suite never depends on real
+# reference material, which changes as the sales team maintains it.
+name: Fixture Marketing Works
+website: https://fixture.example
+oneLiner: We market residential projects for developers and report on bookings.
+positioning: Built for real estate only; judged on absorption rather than impressions.
+foundedYear: 2015
+headquarters: Mumbai, India
+sender:
+  name: Asha Menon
+  title: Principal
+  email: asha@fixture.example
+  calendarLink: https://cal.example/asha
+postalAddress: Fixture Marketing Works, 1 Test Road, Mumbai 400001, India
+unsubscribeLine: Reply "no thanks" and I will not write again.
+services:
+  - id: performance
+    name: Performance Marketing
+    description: Paid acquisition run against booking targets.
+    positioning: Optimised on what happens after the form fill.
+    idealFor: [developers with live inventory]
+    specs:
+      attribution: Lead to site visit to booking
+      reporting cadence: Weekly review
+      markets: Mumbai, Pune, Bengaluru
+    proofPoints: [reported on bookings, not impressions]
+  - id: crm
+    name: Lead Management
+    description: Funnel instrumentation and call-centre measurement.
+    positioning: Makes the enquiry-to-visit gap visible.
+    idealFor: [multi-project portfolios]
+    specs:
+      integrations: Salesforce, Zoho
+differentiators: [real estate only since 2015]
+disqualifiers:
+  - Direct competitor of an existing client in the same micro-market, without written clearance
+  - Project has no RERA registration
+forbiddenClaims: [guaranteed returns, assured returns, we guarantee]

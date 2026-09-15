@@ -2,6 +2,7 @@ import { Claude } from "./anthropic.js";
 import type { AgentConfig } from "./config.js";
 import { loadCorpus, resolveIndustryStyle, resolveLocale, type Corpus } from "./corpus/load.js";
 import type { ScoredCaseStudy } from "./corpus/match.js";
+import { analyseCompetitors } from "./corpus/competitors.js";
 import { researchProspect } from "./stages/research.js";
 import { selectEvidence } from "./stages/select.js";
 import { buildEvidencePack } from "./stages/evidence.js";
@@ -84,7 +85,33 @@ export async function runPipeline(
     log.warn("Research confidence is LOW. Read the brief before sending anything.");
   }
 
-  const locale = resolveLocale(loaded.locales, opts.localeCode ?? research.company.hqCountry);
+  // Deterministic, no model call: cross-reference the prospect's competitors
+  // against our own client base before anything decides what to pitch.
+  const competitorIntel = analyseCompetitors(loaded, research);
+  if (competitorIntel.leverage.length) {
+    log.ok(
+      `Competitor leverage: ${competitorIntel.leverage.map((l) => l.referAs).join(", ")} ` +
+        `(${competitorIntel.leverage.length} of the prospect's rivals are our clients)`,
+    );
+  }
+  for (const caution of competitorIntel.cautions) {
+    log.warn(`Competitor caution: ${caution.reason}`);
+  }
+  if (competitorIntel.silent.length) {
+    log.warn(
+      `${competitorIntel.silent.length} competitor relationship(s) exist but cannot be referenced: ` +
+        competitorIntel.silent.map((l) => l.competitor).join(", "),
+    );
+  }
+  if (competitorIntel.possible.length) {
+    log.warn(
+      `${competitorIntel.possible.length} weak competitor name match(es) need a human to confirm — see the brief.`,
+    );
+  }
+
+  const locale = opts.localeCode
+    ? resolveLocale(loaded.locales, opts.localeCode)
+    : resolveLocale(loaded.locales, research.company.hqCountry, research.company.hqCity);
   const industryStyle = resolveIndustryStyle(
     loaded.industries,
     research.industry.primary,
@@ -93,7 +120,7 @@ export async function runPipeline(
   log.debug(`locale=${locale.code} industryStyle=${industryStyle?.key ?? "none"}`);
 
   log.step(3, TOTAL_STEPS, "Matching past work to the prospect");
-  const { plan, shortlisted } = await selectEvidence(claude, cfg, loaded, research);
+  const { plan, shortlisted } = await selectEvidence(claude, cfg, loaded, research, competitorIntel);
   log.ok(
     plan.selected.length
       ? `Selected ${plan.selected.map((s) => s.caseStudyId).join(", ")}`
@@ -104,7 +131,7 @@ export async function runPipeline(
   }
 
   log.step(4, TOTAL_STEPS, `Drafting (${locale.label} tone, ${industryStyle?.label ?? "generic"} register)`);
-  const evidence = buildEvidencePack(loaded, research, plan);
+  const evidence = buildEvidencePack(loaded, research, plan, competitorIntel);
   const draft = await draftEmail(claude, cfg, loaded, {
     prospect: opts.prospect,
     contactName: opts.contactName,
@@ -119,7 +146,7 @@ export async function runPipeline(
   log.ok(`Subject: "${draft.subject}" · ${draft.body.trim().split(/\s+/).length} words · ${draft.claims.length} claims`);
 
   log.step(5, TOTAL_STEPS, "Checking every claim against the evidence pack");
-  const gateFindings = runGate({ draft, evidence, corpus: loaded, locale });
+  const gateFindings = runGate({ draft, evidence, corpus: loaded, locale, competitorIntel });
   const verification = await verifyDraft(claude, loaded, { draft, evidence, locale, industryStyle });
 
   const gateWorst = worstSeverity(gateFindings);
@@ -137,6 +164,7 @@ export async function runPipeline(
     artifacts: {
       prospect: opts.prospect,
       research,
+      competitorIntel,
       plan,
       draft,
       verification,

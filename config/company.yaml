@@ -1,119 +1,189 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# REPLACE EVERYTHING BELOW WITH YOUR OWN DETAILS.
+# INSOMNIACS — drafted from public sources, NOT YET VERIFIED BY YOU.
 #
-# This is worked example content, not a description of any real company. The
-# agent treats this file as ground truth: whatever you write here is what it
-# will assert to prospects, so anything you cannot defend in a meeting should
-# not be in here.
+# Everything here was assembled from your website and press coverage (sources
+# listed against each block). Nothing in it has been confirmed by anyone at
+# Insomniacs. Treat every line as a claim awaiting sign-off: this file is what
+# the agent asserts to prospects, so anything you would not defend in a meeting
+# needs to change before you run a campaign.
+#
+# Fields marked TODO could not be established from public sources at all.
+#
+# Sources:
+#   https://insomniacs.in/
+#   https://yourstory.com/companies/insomniacs
+#   https://yourstory.com/2019/06/mumbai-digital-marketing-startup-insomniacs
+#   https://realtynxt.com/technology-hub-technology/2019-02-28/ireps-is-insomniacs-new-real-estate-productivity-suite-offering
+#   https://www.rprealtyplus.com/news-views/insomniacs-records-unprecedented-rs-10860-crs-in-sales-in-fy24-115349.html
+#   https://mediabrief.com/totality-partners-with-provider-cre-matrix/
+#   https://insomniacs.in/case-studies/the-house-of-abhinandan-lodha/
 # ─────────────────────────────────────────────────────────────────────────────
 
-name: Northwind Systems
-website: https://northwind.example
-oneLiner: We take B2B SaaS platforms that have outgrown their architecture and make them fast, observable and cheap to run.
+name: Insomniacs
+website: https://insomniacs.in
+oneLiner: >-
+  India's real estate-focused marketing and technology network — strategy,
+  creative, media, performance and the martech stack underneath, under one roof.
 positioning: >-
-  Most scale-up engineering teams know exactly what is wrong with their platform
-  and have no capacity to fix it while shipping features. We embed a small senior
-  team for a fixed window, fix the specific thing that is hurting, and leave the
-  client's own engineers able to maintain it.
-foundedYear: 2017
-headquarters: Bengaluru, India
-teamSize: "45 engineers"
+  Most agencies sell a developer campaigns and hand back impressions. Insomniacs
+  is built only for real estate, so the work is judged on sales: lead quality,
+  site visits, and homes booked. The technology layer — iREPS, Lead Matrix,
+  Totality — exists so the line from a media rupee to a booking is visible
+  rather than asserted.
+foundedYear: 2014
+headquarters: Mumbai, India
+teamSize: "350+ professionals"
 
 sender:
-  name: Priya Raman
-  title: Principal, Platform Engineering
-  email: priya@northwind.example
-  phone: "+91 80 4718 2200"
-  calendarLink: https://cal.example/priya/15min
-  linkedin: https://linkedin.com/in/example
+  # TODO: confirm which mailbox should send, and the exact title on it.
+  name: Govind Rai
+  title: Co-founder
+  email: govind@insomniacs.in
+  # TODO: add phone, calendar link and LinkedIn if you want them in the signature.
 
-# Required by CAN-SPAM for US recipients; the gate flags its absence.
-postalAddress: Northwind Systems, 14 Residency Road, Bengaluru 560025, India
-unsubscribeLine: Reply with "no thanks" and I will not contact you again.
+# TODO: your registered office address. Required for US/NRI sends under CAN-SPAM
+# and good practice everywhere; the gate flags its absence.
+postalAddress: "TODO — Insomniacs registered office, Mumbai, India"
+unsubscribeLine: Reply with "no thanks" and I will not write again.
 
 services:
-  - id: platform-perf
-    name: Platform Performance Engineering
-    description: Diagnose and remove the latency and throughput ceilings in an existing production system.
+  - id: performance-marketing
+    name: Performance Marketing
+    description: Paid acquisition across search, social and programmatic, run against booking targets rather than lead counts.
     positioning: >-
-      A fixed-scope engagement that starts with measurement, not opinion. We
-      instrument first, find the actual bottleneck, and fix that — rather than
-      rewriting the part of the system that is easiest to rewrite.
+      Real estate media buying fails in a specific way: cost per lead falls while
+      cost per booking rises, because the channels that produce cheap leads
+      produce the wrong ones. We optimise on what happens after the form fill.
     idealFor:
-      - B2B SaaS past Series B with a monolith under strain
-      - Platforms with p95 latency complaints from enterprise customers
-      - Teams whose infrastructure bill is growing faster than revenue
+      - Developers with live inventory and a defined absorption target
+      - Launches needing regional messaging across multiple metros
+      - Teams whose cost per booking is rising while cost per lead falls
     specs:
-      engagement model: Embedded squad of 3–5 senior engineers
-      typical duration: 10–16 weeks
-      deployment: Client VPC, or our managed staging mirror
-      observability stack: OpenTelemetry, Prometheus, Grafana — no proprietary agents
-      handover: Runbooks, load-test harness, and two weeks of paired on-call
-      compliance: SOC 2 Type II, ISO 27001, GDPR DPA available
-      data residency: EU, US or India, client's choice
+      engagement model: Retained, with a named strategist and media planner
+      markets: Mumbai, Pune, Bengaluru, Delhi NCR, Hyderabad, plus NRI markets
+      channels: Google, Meta, programmatic display, OTT, portals
+      attribution: Lead to site visit to booking, via Lead Matrix
+      reporting cadence: Real-time dashboard plus a weekly review
+      compliance: RERA registration details carried in every creative; ASCI codes observed
     proofPoints:
-      - Every engagement ships behind the client's own CI, not ours
-      - We publish the measurement methodology before we quote a number
-    commercialNotes: Fixed fee per phase. Not time and materials.
+      - Campaigns are reported on bookings, not impressions
+      - Regional creative variants rather than one national message
 
-  - id: data-platform
-    name: Data Platform Modernisation
-    description: Move reporting and analytics off the transactional database without a big-bang migration.
+  - id: brand-creative
+    name: Brand, Content and Creative
+    description: Positioning, visual communication, content strategy and campaign films for a project or a developer brand.
     positioning: >-
-      Incremental, reversible steps. Each phase ships to production and pays for
-      itself before the next one starts, so the work can stop at any point
-      without leaving the client half-migrated.
+      A project's positioning has to survive contact with a site visit. We build
+      the story from what the project actually is — location, plan, spec,
+      neighbourhood — rather than from a mood board.
     idealFor:
-      - Companies where analytics queries are degrading the production database
-      - Teams that have tried and abandoned a warehouse migration before
-      - Businesses with data-residency obligations across multiple markets
+      - New launches needing a positioning platform
+      - Developers repositioning an older or slow-moving project
+      - Land and plotted development, where the product is hardest to dramatise
     specs:
-      engagement model: Two engineers plus a fractional data architect
-      typical duration: 12–20 weeks
-      targets: Postgres, ClickHouse, BigQuery, Snowflake
-      ingestion: CDC via Debezium; no dual-write requirements
-      compliance: SOC 2 Type II, ISO 27001, GDPR DPA available
-      data residency: EU, US or India, client's choice
+      engagement model: Project-based or retained
+      deliverables: Positioning platform, identity, campaign film, collateral, site branding
+      compliance: RERA registration number and website on all advertising; ASCI codes observed
     proofPoints:
-      - Each phase is independently revertible
-      - "No proprietary tooling: the client owns everything at handover"
+      - Built for real estate only — no adaptation of an FMCG playbook
 
-  - id: reliability
-    name: Reliability and On-Call Reset
-    description: Rebuild alerting, incident process and on-call rotation for a team drowning in pages.
+  - id: martech-ireps
+    name: iREPS and Totality Platform
+    description: The real estate technology suite — sales, marketing and customer-experience tooling for developers.
     positioning: >-
-      The goal is fewer pages, not better dashboards. We cut alert volume first,
-      then rebuild what is left around user-visible symptoms.
+      Built inside an agency that runs campaigns, so the tooling reflects how a
+      developer's sales process actually works rather than how a generic CRM
+      assumes it does.
     idealFor:
-      - Teams losing senior engineers to on-call burnout
-      - Companies signing enterprise SLAs for the first time
+      - Developers running several projects with no single view of the funnel
+      - Sales teams whose call centre performance is invisible
+      - Developers with a large existing database and no referral motion
     specs:
-      engagement model: One embedded SRE plus review cadence
-      typical duration: 8–12 weeks
-      SLO tooling: Client's existing stack; we do not sell a platform
-      compliance: SOC 2 Type II, ISO 27001
+      engagement model: Licence plus implementation
+      products: iREPS suite, Lead Matrix, Repeople by RealtyX, Totality
+      in development: Integrated Customer Experience (ICX) platform — unified sales and marketing dashboard
+      adoption: "In use by 80+ realtors in India"
+      data partnership: CRE Matrix, for real estate intelligence
     proofPoints:
-      - Alert volume reduction is measured against a pre-engagement baseline
+      - "Released from the third year of operations; in use by 80+ realtors"
+      # TODO: add integration list, deployment model and data-residency posture —
+      # Indian developers increasingly ask, and an enterprise buyer will ask first.
+
+  - id: crm-leads
+    name: Lead Management and CRM
+    description: Lead funnel instrumentation, nurture, and call-centre performance measurement.
+    positioning: >-
+      Most developers lose more revenue between enquiry and site visit than they
+      do in media. Lead Matrix makes that gap visible in real time, including
+      how the call centre is actually performing.
+    idealFor:
+      - Developers whose enquiry-to-site-visit conversion is unmeasured
+      - Multi-project portfolios with inconsistent lead handling
+    specs:
+      engagement model: Platform plus process design
+      capabilities: Real-time funnel tracking, nurture automation, call-centre efficiency measurement
+      integrations: "TODO — confirm which CRMs and dialers are supported"
+    proofPoints:
+      - Call-centre efficiency is measured, not assumed
+
+  - id: influencer-social
+    name: Influencer and Social
+    description: Creator-led campaigns wired into performance marketing and CRM, so reach converts into tracked enquiries.
+    positioning: >-
+      Creator work in real estate usually produces views and no attribution. We
+      run it through the same tracking as paid, so a reel is judged on enquiries.
+    idealFor:
+      - Developers targeting first-time buyers and younger cohorts
+      - Launches needing reach in a specific micro-market
+    specs:
+      engagement model: Campaign-based
+      programme: Sleepless Rangers BEAT — 50 handpicked creators, ₹25 lakh prize pool
+      attribution: Creator content tracked through to enquiries via Lead Matrix
+    proofPoints:
+      - Creator output is measured on tracked enquiries rather than views
 
 differentiators:
-  - Fixed scope and fixed fee — the commercial incentive is to finish, not to stay
-  - Measurement published before the engagement, so the result is checkable
-  - Client engineers pair with ours throughout; no knowledge leaves with us
-  - We turn down work we do not think we can move the needle on
+  - Built for real estate only, since 2014 — not a generalist agency with a realty desk
+  - Marketing and the technology underneath it come from the same firm, so attribution is not stitched together across vendors
+  - Regional creative and media by metro, rather than one national message
+  - "iREPS/Totality in use by 80+ realtors — the tooling is proven outside our own campaigns"
 
-# Signals that mean we should not pitch at all. The selector checks these
-# against the research and reports any that fire.
+# Signals that mean we should not pitch at all. The selector checks these against
+# the research and reports any that fire.
+#
+# The competitor line below is load-bearing: it tells the competitor engine to
+# treat an existing client who is a direct rival of the prospect as a MAJOR
+# caution rather than a minor one. Remove it and those become informational.
 disqualifiers:
-  - Fewer than 15 engineers — there is no team to embed with
-  - Pre-product-market-fit; performance is not their problem yet
-  - Actively in an acquisition process — nothing gets signed
-  - Direct competitor of an existing client in the same market
+  - Direct competitor of an existing client in the same micro-market, without written clearance from both
+  - Project has no RERA registration — we cannot advertise it
+  - Developer wants a single campaign with no measurement, rather than a retained relationship
+  - "TODO: minimum project ticket size or media budget below which this is not worth pursuing"
 
-# Claims we may never make, for legal or contractual reasons. Enforced by both
-# the deterministic gate (substring) and the verifier (in substance).
+# Claims that may never be made, for regulatory or contractual reasons. Enforced
+# by substring in the deterministic gate and in substance by the auditor.
+#
+# The returns-related entries matter most: promising appreciation or assured
+# returns on property is the fastest way to a regulatory problem in India.
 forbiddenClaims:
-  - guaranteed
+  - guaranteed returns
+  - assured returns
+  - guaranteed appreciation
+  - risk-free investment
+  - we guarantee
   - guarantee a
-  - we can promise
-  - industry-leading
-  - the only firm
+  - "no. 1"
+  - "number 1 agency"
+
+# Where a researcher should look for your kind of prospect. These are injected
+# into the analyst brief, so the research goes to real-estate sources rather
+# than generic company-research sources.
+researchHints:
+  - RERA portals for the relevant state (MahaRERA, K-RERA, TG-RERA, HARERA, UP-RERA) — registered projects, launch dates, declared inventory and completion status are public and authoritative
+  - The developer's own project microsites and price lists, for current inventory and possession timelines
+  - Trade press — RealtyPlus, RealtyNXT, Moneycontrol Real Estate, ET Realty, Hindustan Times HT Estates
+  - Quarterly residential market reports from Anarock, Knight Frank India, JLL India and CBRE India for absorption and unsold-inventory context in the relevant micro-market
+  - The developer's hiring — a sudden run of sales, CRM or digital-marketing roles usually means a launch or a channel problem
+  - Channel-partner and broker chatter on LinkedIn, for what is actually moving
+  - Listed developers' investor presentations and earnings calls, which state absorption, collections and launch pipeline directly
+  - Their social and paid presence — what they are currently running tells you what they believe is working

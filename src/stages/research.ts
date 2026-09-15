@@ -15,7 +15,7 @@ const ANALYST_BRIEF = `You are a B2B research analyst preparing a sales team for
 Your output is read by a colleague who will write one cold email. They need to sound like they did their homework, not like they read a press release. So:
 
 - Use the web search and web fetch tools. Do not answer from memory. Company facts change; your training data is stale by definition.
-- Prefer primary sources: the company's own site, careers page, product docs, changelog, status page, pricing page, regulatory filings, and the local business press. Job adverts and engineering blogs are unusually high-signal about what a software company is actually struggling with.
+- Prefer primary sources: the company's own site and its regulatory filings, its careers page, and the local trade press. What a company is hiring for is unusually high-signal about what it is struggling with.
 - Search in the company's own language and market where that will find more than English will.
 - Attribute every factual claim to a specific URL you actually retrieved. If two sources conflict, say so and say which you trust.
 - Distinguish hard fact from inference, and label inference as inference.
@@ -32,7 +32,7 @@ Structure your findings under these headings, in prose:
 6. Recent developments — last 18 months, each with why it matters commercially
 7. Likely operational pains — grounded in observed evidence, not archetype
 8. Buying context — who buys this kind of thing there, what triggers a purchase, how procurement works
-9. Competitors
+9. Competitors — name them. For each, say whether they compete directly (same buyers, same market), adjacently, or are simply who the prospect benchmarks itself against, and on what basis. Be specific and generous here: a named rival is worth more to the reader than a category.
 10. Regional and regulatory context for outreach
 11. Confidence and gaps — what you could not establish
 
@@ -100,7 +100,8 @@ export async function researchProspect(
           `Rules:\n` +
           `- Copy only what the notes support. Never add facts, never smooth over a gap.\n` +
           `- Where the notes say something is unknown, use null or an empty array — do not infer.\n` +
-          `- Every entry under recentDevelopments and likelyPains must carry at least one sourceId that exists in the sources array.\n` +
+          `- Every entry under recentDevelopments, likelyPains and competitors must carry at least one sourceId that exists in the sources array.\n` +
+          `- Name competitors as the company is normally written, without legal suffixes where they are usually dropped.\n` +
           `- Carry the analyst's source list across verbatim, keeping the same ids.\n` +
           `- Set confidence honestly: "low" if the notes are thin or mostly inference.`,
       },
@@ -131,6 +132,9 @@ function sellerContext(corpus: Corpus): string {
     `What they sell:`,
     ...c.services.map((s) => `- ${s.name}: ${s.description} (ideal for: ${s.idealFor.join(", ") || "n/a"})`),
     ``,
+    c.researchHints.length
+      ? `Where to look for this kind of prospect specifically:\n${c.researchHints.map((h) => `- ${h}`).join("\n")}\n`
+      : ``,
     `Weight your research toward evidence that would tell this seller whether the prospect is a fit, and toward the operational problems this seller is equipped to solve. Do not pitch — just find out what is true.`,
   ].join("\n");
 }

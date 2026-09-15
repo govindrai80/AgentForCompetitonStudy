@@ -9,8 +9,10 @@ traced back to a source you can open.
 npm install
 cp .env.example .env          # add ANTHROPIC_API_KEY
 npm run outreach -- validate  # check your reference material loads
-npm run outreach -- research "Acme Logistics" --contact "Dana Whitfield" --title "VP Engineering"
+npm run outreach -- research "Sobha Limited" --contact "..." --title "Head of Sales"
 ```
+
+> **`config/company.yaml` was drafted from public sources and has not been verified by anyone at Insomniacs.** Every line in it is a claim the agent will make to prospects. Read it before the first real run; fields it could not establish are marked `TODO`.
 
 Output lands in `out/<prospect>-<timestamp>/`:
 
@@ -36,15 +38,20 @@ So the pipeline is built around a closed evidence world:
    inline source attribution.
 2. **Structure** converts that prose to a schema where every claim about the
    prospect carries the id of the source that established it.
-3. **Select** ranks your case studies against the research. A deterministic
-   prefilter narrows the library first, so this stays cheap as it grows.
-4. **Build the evidence pack** — in code, not in a model. This is the complete
+3. **Cross-reference competitors** — in code, no model call. Every competitor
+   the research named is matched against your case studies *and* your client
+   list. See below; this is the part that matters most for an agency.
+4. **Select** ranks your case studies against the research. A deterministic
+   prefilter narrows the library first, so this stays cheap as it grows, and a
+   case study whose client is a confirmed rival of the prospect is weighted
+   heavily — it is the only proof a developer cannot dismiss as irrelevant.
+5. **Build the evidence pack** — in code, not in a model. This is the complete
    set of facts the writer is permitted to use. Internal-only case studies are
    dropped here. Anonymised clients are replaced with their cleared label.
    Unverified numbers are marked unquotable.
-5. **Draft** sees the evidence pack and nothing else, and must return a ledger
+6. **Draft** sees the evidence pack and nothing else, and must return a ledger
    mapping every claim in the body to a ref in the pack.
-6. **Check**, twice and independently:
+7. **Check**, twice and independently:
    - a **deterministic gate** — string matching and arithmetic, so it cannot be
      talked out of anything;
    - a **grounding audit** by a separate model call that is given the email and
@@ -53,6 +60,37 @@ So the pipeline is built around a closed evidence world:
 
 A blocked draft still gets written to disk with its findings, and the process
 exits non-zero. Nothing is sent. Ever — see *Gmail* below.
+
+### Competitor overlap
+
+"We ran the campaign for the developer you compete with" outranks any capability
+claim you can write. It is also the sentence most likely to cause a problem —
+for the rival, for the prospect, or for an exclusivity clause someone signed two
+years ago. So one deterministic pass produces both halves, and decides neither.
+
+Every named competitor is sorted into one of four buckets:
+
+| Bucket | Meaning | Reaches the email? |
+| --- | --- | --- |
+| **Leverage** | Confident name match, and we are cleared to reference the relationship | Yes, with the exact wording fixed |
+| **Silent** | Confident match, but `internal_only` or `nameable: false` | Never. Brief only |
+| **Possible** | Weak name match — one shared word, different company | Never. Brief only, for you to confirm or dismiss |
+| **Unmatched** | No recorded relationship | n/a |
+
+The weak tier exists for cases like **Lodha Group** against **The House of
+Abhinandan Lodha**: related-sounding, routinely confused, genuinely separate
+firms. Treating that as a match puts a false claim in an email; ignoring it
+hides something a rep should see. So it is reported and not acted on.
+
+Where a **direct** rival is already a client, that is raised as a caution as
+well as leverage. It becomes a `major` finding — loud, not blocking — if your
+`disqualifiers` in `config/company.yaml` mention competitors, conflicts or
+exclusivity. That line is load-bearing: delete it and these drop to
+informational.
+
+The scan runs over the *whole* library, `internal_only` engagements included.
+Those can never be quoted, but a rival quietly being a client is exactly what a
+rep needs to know before hitting send.
 
 ### What the confidentiality levels do
 
@@ -75,14 +113,19 @@ an email.
 Three files, then you're running.
 
 **`config/company.yaml`** — who you are, what you sell, and the specifications a
-technical buyer will ask about. The shipped file is a worked example for a
-fictional firm called Northwind Systems; replace all of it. Two fields do real
-work:
+buyer will ask about. Drafted from your website and press coverage, with sources
+listed in the header and unknowns marked `TODO`. **Verify it.** Three fields do
+real work beyond description:
 
 - `disqualifiers` — signals that mean you should not pitch at all. The selector
   checks the research against these and reports any that fire.
 - `forbiddenClaims` — things you may not say, for legal or contractual reasons.
-  Enforced by substring in the gate and in substance by the auditor.
+  Enforced by substring in the gate and in substance by the auditor. The
+  returns-related entries matter most: promising assured returns or appreciation
+  on property is the fastest route to a regulatory problem in India.
+- `researchHints` — where a researcher should look for your kind of prospect.
+  These are injected into the analyst brief, so research goes to RERA portals,
+  absorption reports and trade press rather than generic company sources.
 
 **`data/case-studies/*.md`** — one markdown file per engagement. YAML frontmatter
 is the structured record; the prose below it is what the selector reads when
@@ -94,12 +137,19 @@ you can do after setup is go back through past engagements and record real
 numbers with `verified: true`.
 
 **`config/locales.yaml`** — tone, formality, length limits and the statutory
-position per market. Edit the tone notes freely as your team learns what earns
+position per market. Indian metros are separate profiles (`IN-MMR`, `IN-NCR`,
+`IN-BLR`, `IN-HYD`, `IN-PNQ`), because a Mumbai developer and a Bengaluru
+developer buy differently enough that one "India" profile flattens the thing
+that makes the email land — the locale resolves on the researched *city* first,
+then the country. The NRI markets (`AE`, `SG`, `US`, `GB`, `AU`, `CA`) are there
+because that is where a lot of Indian residential media goes. Edit the tone notes freely as your team learns what earns
 replies. The `compliance` entries drive hard checks (postal address, opt-out
 line), so treat those as load-bearing.
 
-`config/industries.yaml` sets vocabulary and register by buyer type, and which
-specs that audience actually checks first.
+`config/industries.yaml` sets vocabulary and register by developer segment —
+luxury, plotted/branded land, affordable, commercial, proptech — and which specs
+each audience checks first. The most specific segment wins: a luxury residential
+prospect gets the `luxury` profile, not the generic `real estate` one.
 
 Run `npm run outreach -- validate` after any edit. It parses everything, checks
 service ids referenced by case studies actually exist, and tells you how much of
@@ -182,13 +232,18 @@ so — set `enabled: false`.
 ## Tests
 
 ```bash
-npm test        # 41 tests, no API key needed
+npm test        # 76 tests, no API key needed
 npm run typecheck
 ```
 
 The suite covers the parts where a bug is silent and expensive: the
-confidentiality gate, the unverified-number check, the deterministic matcher, the
-evidence pack, and a full pipeline run against a stubbed SDK client.
+confidentiality gate, the unverified-number check, company-name matching, the
+competitor cross-reference and its cautions, the evidence pack, and a full
+pipeline run against a stubbed SDK client.
+
+It runs against its own fixture corpus in `test/fixtures/`, not your live
+reference material — so editing `config/company.yaml` or adding a case study
+never breaks the suite.
 
 ---
 
@@ -200,6 +255,10 @@ strictly enforced in Germany, Canada and Japan. The `compliance` notes in
 `config/locales.yaml` reflect the position at the time of writing and drive real
 checks, but they are configuration, not legal advice. Have counsel look at that
 file before you send into a market you haven't sold into before.
+
+**Verify the company profile before the first real send.** It was assembled
+from public sources by an agent that had never spoken to you. It is a starting
+point, not a record.
 
 **Read the brief, not just the email.** The draft is the easy part to evaluate
 and the wrong thing to evaluate. The claim ledger and the two audits are where
