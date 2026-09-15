@@ -1,0 +1,159 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# THE BLUEPRINT — drafted from theblueprint.asia, NOT VERIFIED BY YOU.
+#
+# The site carries no founding year, team size, project count or metrics, and
+# does not mention Insomniacs. The group link here rests on the shared office
+# address with AbsoluteCX and Reventers, plus your own word. Confirm it.
+#
+# Read the note at the bottom of this file before running this brand: its
+# service lines overlap heavily with Insomniacs and Reventers.
+#
+# Sources: https://theblueprint.asia/ · https://theblueprint.asia/services
+# ─────────────────────────────────────────────────────────────────────────────
+brand: theblueprint
+name: The Blueprint
+group: Insomniacs
+website: https://theblueprint.asia
+oneLiner: >-
+  Real estate branding and creative — identities, narratives and campaigns that
+  make a project memorable rather than merely launched.
+positioning: >-
+  "Most projects are launched. Few are remembered, but legends are designed."
+  Storytelling is treated as strategy rather than decoration: narratives that
+  position homes as experiences, felt emotionally and chosen rationally. Every
+  engagement is built from scratch — "no off-the-shelf solutions here. Every
+  challenge deserves its own blueprint."
+headquarters: "203, 2nd Floor, Ackruti Star, MIDC Central Road, Andheri East, Mumbai 400093, India"
+
+sender:
+  # TODO: confirm the sending mailbox and exact title for The Blueprint outreach.
+  # The site lists no email or phone at all.
+  name: TODO
+  title: TODO
+  email: TODO@theblueprint.asia
+
+postalAddress: "The Blueprint, 203, 2nd Floor, Ackruti Star, MIDC Central Road, Andheri East, Mumbai 400093, India"
+unsubscribeLine: Reply with "no thanks" and I will not write again.
+
+services:
+  - id: branding
+    name: Branding
+    description: Brand strategy and identity for developers and projects.
+    positioning: >-
+      "Before a brand speaks, it must know who it is. We uncover the heartbeat
+      behind your business and turn it into a strategy with clarity, courage,
+      and intent, so every decision feels aligned, not loud."
+    idealFor:
+      - Developers whose project brands all look the same as each other
+      - Builders moving up-market and needing the brand to carry it
+      - New entrants to a micro-market with no recognition
+    specs:
+      engagement model: "Bespoke per engagement — teams shaped around the business need"
+      deliverables: "TODO — confirm the standard identity deliverable set"
+    proofPoints:
+      - '"Every challenge deserves its own blueprint" — no templated identity work'
+
+  - id: creative-gtm
+    name: Creative and GTM Strategy
+    description: Go-to-market strategy and the creative platform that carries it.
+    positioning: >-
+      "Think of this as the mind behind the magic. We read behaviour, decode
+      culture, and connect the dots to design a blueprint where insight guides
+      imagination. Every idea knows its place. Every story knows its purpose."
+    idealFor:
+      - Launches needing a positioning platform before media is bought
+      - Projects whose creative is running without a strategy under it
+    specs:
+      engagement model: Project-based, per launch
+      inputs: Behavioural and cultural insight ahead of creative
+    proofPoints:
+      - Strategy precedes creative rather than rationalising it afterwards
+
+  - id: website-design
+    name: Website Design
+    description: Project and brand websites built to convert enquiries, not just to exist.
+    positioning: >-
+      "Creating digital experiences that connect, engage, and convert, with
+      sites that are intuitive, engaging, and built for success."
+    idealFor:
+      - Developers whose project microsites leak enquiries
+      - Launches needing a site live before the campaign opens
+    specs:
+      scope: Project microsites and brand sites
+      integrations: "TODO — confirm CRM and lead-capture integrations"
+
+  - id: av-production
+    name: Audio and Video Production
+    description: Film, motion and sound for project launches and brand campaigns.
+    positioning: >-
+      "Stories that move, visuals that speak, and sound that resonates, content
+      that leaves a lasting impression."
+    idealFor:
+      - Launches needing a campaign film
+      - Brands with product to show and no narrative around it
+    specs:
+      outputs: Launch films, brand films, motion and sound design
+      scope: "TODO — confirm in-house production versus partner network"
+
+  - id: media-buying
+    name: Media Buying
+    description: Planning and buying media placement for real estate campaigns.
+    positioning: >-
+      "Placing your brand where it matters most, creating visibility that
+      commands attention and drives results."
+    idealFor:
+      - Developers buying media without a planning layer
+      - Campaigns needing placement aligned to a creative platform
+    specs:
+      scope: Media planning and buying
+      measurement: "TODO — confirm what is reported and at what cadence"
+
+differentiators:
+  - "\"Lead by Design\" — strategy and creative from one team rather than a planner handing off to a studio"
+  - Bespoke per engagement; no templated packages
+  - Real estate only, with a portfolio spanning developers, an industry body and an architecture practice
+  - Part of the Insomniacs group, so creative can connect to media and CRM
+
+disqualifiers:
+  - Direct competitor of an existing client in the same micro-market, without written clearance from both
+  - Project has no RERA registration — we cannot advertise it
+  - Developer wanting execution only, with the strategy already fixed elsewhere
+  - "TODO: minimum engagement size below which this is not worth pursuing"
+
+forbiddenClaims:
+  - guaranteed returns
+  - assured returns
+  - guaranteed appreciation
+  - risk-free investment
+  - we guarantee
+  - guarantee a
+  - "no. 1"
+
+researchHints:
+  - The developer's existing project branding — whether their projects are visually distinguishable from each other is the whole pitch
+  - RERA portals for launch dates, which set the branding window; branding work has to land before media opens
+  - Trade press launch announcements and award entries — RealtyPlus, RealtyNXT, ET Realty
+  - Their current project microsites, for how enquiries are captured and where they leak
+  - Architecture and design press, for developers investing in design credibility
+  - Their hiring for brand or marketing leadership, which usually precedes a repositioning
+
+# Public handles, read from the site.
+social:
+  instagram: https://www.instagram.com/theblueprint.asia/
+  x: https://x.com/BluePrint_Asia
+  linkedin: https://www.linkedin.com/company/14524850/
+  # TODO: confirm the Facebook page URL — the site links one but not by handle
+
+# ─────────────────────────────────────────────────────────────────────────────
+# OVERLAP WARNING — read before running this brand.
+#
+# Branding, creative, website, AV and media buying overlap substantially with
+# Insomniacs (brand-creative, performance-marketing) and partly with Reventers
+# (content, video). The client lists overlap too: Hiranandani, Ajmera, DLF and
+# Raymond each appear under more than one brand.
+#
+# That is a positioning question for you, not a bug in this tool. But it has a
+# practical consequence: two brands can pitch the same service to the same
+# prospect. Run `outreach brands` to see which clients are held by more than
+# one brand before starting a campaign from either.
+# ─────────────────────────────────────────────────────────────────────────────

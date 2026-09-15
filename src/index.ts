@@ -4,6 +4,7 @@ import { Command } from "commander";
 import pc from "picocolors";
 import { loadAgentConfig } from "./config.js";
 import { loadCorpus } from "./corpus/load.js";
+import { findCrossBrandClients } from "./corpus/competitors.js";
 import { isBlocked, runPipeline, type RunOptions } from "./pipeline.js";
 import { renderBrief } from "./render/brief.js";
 import { renderEmailBody } from "./render/email.js";
@@ -244,6 +245,23 @@ program
           `${String(todos).padStart(2)} TODOs  ${mark}`,
       );
     }
+    const overlaps = findCrossBrandClients(loadCorpus(loadAgentConfig(o.config, all.defaultBrand)).clients);
+    if (overlaps.length) {
+      console.log(`\n${pc.bold("Clients held by more than one brand")}`);
+      console.log(
+        pc.dim("  Two brands can pitch the same account in the same week, and a conflict one\n" +
+               "  brand has cleared is not cleared for another. Check before a campaign.\n"),
+      );
+      for (const o2 of overlaps) {
+        const mark = o2.confidence === "weak" ? pc.yellow("?") : " ";
+        const alias = o2.aliases.length ? pc.dim(` (also recorded as ${o2.aliases.join(", ")})`) : "";
+        console.log(`  ${mark} ${o2.name.padEnd(26)} ${o2.brands.join(" + ")}${alias}`);
+      }
+      if (overlaps.some((x) => x.confidence === "weak")) {
+        console.log(pc.dim("\n  ? = weak name match. Confirm these are the same company."));
+      }
+    }
+
     console.log(`\n${pc.dim(`Default brand: ${all.defaultBrand}. Use --brand <key> to switch.`)}`);
   });
 

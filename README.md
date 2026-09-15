@@ -27,6 +27,7 @@ than more services on one:
 | `absolutecx` | AbsoluteCX | AI real estate CRM, pre-sales automation, CX through handover |
 | `brikkin` | Brikkin | Creator network (BRIC) and The Launch Room |
 | `reventers` | Reventers | Content, video, PR and amplification for real estate brands |
+| `theblueprint` | The Blueprint | Branding, creative and GTM strategy, websites, AV, media buying |
 
 Two rules make the group work as a group without letting brands borrow each
 other's credibility:
@@ -42,7 +43,11 @@ other's credibility:
   through whoever owns it.
 
 Untagged case studies are citable by any brand. `outreach brands` shows how
-many own case studies, verified results and outstanding `TODO`s each has.
+many own case studies, verified results and outstanding `TODO`s each has — and
+**which clients are held by more than one brand**, because two brands with
+overlapping service lines can pitch the same account in the same week, and a
+conflict one brand has cleared is not cleared for another. Name matching there
+is fuzzy, so uncertain pairings are marked `?` rather than asserted.
 
 Output lands in `out/<prospect>-<timestamp>/`:
 
@@ -266,7 +271,7 @@ so — set `enabled: false`.
 ## Tests
 
 ```bash
-npm test        # 87 tests, no API key needed
+npm test        # 90 tests, no API key needed
 npm run typecheck
 ```
 

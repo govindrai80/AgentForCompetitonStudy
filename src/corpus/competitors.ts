@@ -1,5 +1,5 @@
 import type { Corpus } from "./load.js";
-import { matchCompany, type NameMatch } from "../util/names.js";
+import { matchCompany, type MatchConfidence, type NameMatch } from "../util/names.js";
 import type { CaseStudy, ClientRecord, ProspectResearch } from "../types.js";
 
 /**
@@ -222,3 +222,50 @@ export const competitorCaseStudyIds = (intel: CompetitorIntel): Set<string> =>
       .filter((l) => l.origin.kind === "case-study")
       .map((l) => (l.origin as { id: string }).id),
   );
+
+export interface CrossBrandClient {
+  /** How the client is written by the first brand that recorded it. */
+  name: string;
+  brands: string[];
+  confidence: MatchConfidence;
+  aliases: string[];
+}
+
+/**
+ * Clients recorded under more than one brand in the group.
+ *
+ * Worth knowing before a campaign: where two brands sell overlapping services
+ * to the same account, they can end up pitching the same prospect in the same
+ * week, and a conflict one brand clears is not automatically cleared for
+ * another. Name matching is fuzzy, so weak matches are reported as such rather
+ * than asserted.
+ */
+export function findCrossBrandClients(clients: ClientRecord[]): CrossBrandClient[] {
+  const groups: { names: string[]; brands: Set<string>; confidence: MatchConfidence }[] = [];
+
+  for (const client of clients) {
+    const brand = client.brand ?? "(unassigned)";
+    const existing = groups.find((g) => g.names.some((n) => matchCompany(n, client.name)));
+
+    if (!existing) {
+      groups.push({ names: [client.name], brands: new Set([brand]), confidence: "exact" });
+      continue;
+    }
+    const match = existing.names.map((n) => matchCompany(n, client.name)).find(Boolean)!;
+    // A group is only as certain as its loosest link.
+    if (match.confidence === "weak") existing.confidence = "weak";
+    else if (match.confidence === "strong" && existing.confidence === "exact") existing.confidence = "strong";
+    if (!existing.names.includes(client.name)) existing.names.push(client.name);
+    existing.brands.add(brand);
+  }
+
+  return groups
+    .filter((g) => g.brands.size > 1)
+    .map((g) => ({
+      name: g.names[0]!,
+      brands: [...g.brands].sort(),
+      confidence: g.confidence,
+      aliases: g.names.slice(1),
+    }))
+    .sort((a, b) => b.brands.length - a.brands.length || a.name.localeCompare(b.name));
+}

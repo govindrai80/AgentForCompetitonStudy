@@ -34,6 +34,10 @@ const GENERIC_TOKENS = new Set([
   "lands", "house", "constructions", "construction", "enterprises", "india",
   "global", "international", "national", "technologies", "technology", "systems",
   "solutions", "services", "digital", "media", "labs", "partners", "capital",
+  // Sector words. In real estate these describe what a firm builds, not which
+  // firm it is — two unrelated companies sharing "retail" is a coincidence.
+  "retail", "residential", "commercial", "hospitality", "industrial",
+  "logistics", "warehousing", "township", "townships", "realtors",
   "the", "and", "of", "for",
 ]);
 

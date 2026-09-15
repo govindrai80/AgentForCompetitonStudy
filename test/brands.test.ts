@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { loadAgentConfig } from "../src/config.js";
-import { analyseCompetitors } from "../src/corpus/competitors.js";
+import { analyseCompetitors, findCrossBrandClients } from "../src/corpus/competitors.js";
 import { shortlist } from "../src/corpus/match.js";
 import { buildEvidencePack } from "../src/stages/evidence.js";
 import { runGate } from "../src/stages/gate.js";
@@ -98,5 +98,25 @@ describe("group-wide competitor visibility", () => {
       competitorIntel: analyseCompetitors(fixture, withTidewater),
     });
     expect(findings).toContainEqual(expect.objectContaining({ rule: "competitor-not-nameable", severity: "blocker" }));
+  });
+});
+
+describe("cross-brand client overlap", () => {
+  const overlaps = findCrossBrandClients(fixture.clients);
+
+  it("reports a client both brands record, and no one-brand clients", () => {
+    expect(overlaps.map((o) => o.name)).toContain("Skyline Developers");
+    expect(overlaps.find((o) => o.name === "Skyline Developers")?.brands).toEqual(["fixture", "sibling"]);
+    expect(overlaps.map((o) => o.name)).not.toContain("Quiet Partner Homes");
+  });
+
+  it("marks an uncertain pairing weak rather than asserting it", () => {
+    const beacon = overlaps.find((o) => o.name === "Beacon Realty");
+    expect(beacon?.confidence).toBe("weak");
+    expect(beacon?.aliases).toContain("Beacon Retail Ventures");
+  });
+
+  it("is deterministic", () => {
+    expect(findCrossBrandClients(fixture.clients)).toEqual(overlaps);
   });
 });

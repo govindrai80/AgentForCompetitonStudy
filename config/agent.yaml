@@ -51,6 +51,8 @@ brands:
     companyProfile: config/brands/brikkin.yaml
   reventers:
     companyProfile: config/brands/reventers.yaml
+  theblueprint:
+    companyProfile: config/brands/theblueprint.yaml
 
 paths:
   companyProfile: config/brands/insomniacs.yaml
